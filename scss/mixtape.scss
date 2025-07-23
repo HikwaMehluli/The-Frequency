@@ -82,3 +82,11 @@
 		transform: rotate3d(0, 1, 0, 180deg);
 	}
 }
+
+@media (max-width: 480px) {
+	.tape-cover {
+		.tape-name {
+			font-size: .9rem !important;
+		}
+	}
+}
