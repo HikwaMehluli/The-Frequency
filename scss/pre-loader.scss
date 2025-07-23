@@ -1,0 +1,30 @@
+// Used for Error in .js or general page loading - themes.scss
+.pre-loader {
+    border-radius: 50%;
+    width: min(80px, 15vw);
+    height: min(80px, 15vw);
+    margin: 0 auto;
+    -webkit-animation: pre-loader-spin 2s linear infinite;
+    animation: pre-loader-spin 2s linear infinite;
+    display: none;
+}
+
+@-webkit-keyframes pre-loader-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes pre-loader-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}

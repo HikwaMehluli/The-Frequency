@@ -1,0 +1,85 @@
+// 
+// Tape Mechanics
+//
+.tape-mechanics {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: transparent url(../img/bk.png) no-repeat center center;
+    background-size: contain;
+}
+
+.tape-wheels {
+    width: 21.3%; // 125px / 586px
+    aspect-ratio: 1; // Keep circular
+    position: absolute;
+    top: 29%; // 110px / 379px
+    background: transparent;
+    border-radius: 50%;
+
+    div {
+        width: 100%;
+        height: 100%;
+        background: transparent url(../img/wh.png) no-repeat center center;
+        background-size: contain;
+    }
+
+    &.left-wheel {
+        left: 18.6%; // 109px / 586px
+        // box-shadow: 0 0 0 70px black;
+        box-shadow: 0 0 0 min(70px, 12vw) black;
+    }
+
+    &.right-wheel {
+        right: 19.3%; // 113px / 586px
+    }
+}
+
+// Media query for very small screens
+@media (max-width: 480px) {
+    #mix-tape {
+        padding: 10px;
+
+        .switch-tape .tape-container {
+            // Ensure minimum readability on very small screens
+            min-height: 200px;
+        }
+    }
+
+    // .tape-wheels {
+    //     &.left-wheel {
+    //         // box-shadow: 0 0 0 40px black;
+    //         box-shadow: 0 0 0 min(40px, 7vw) black;
+    //     }
+    // }
+}
+
+@-webkit-keyframes rotateLeft {
+    0% { -webkit-transform: rotate(0deg) translateZ(-1px);}
+    100% {-webkit-transform: rotate(-360deg) translateZ(-1px);}
+}
+
+@-webkit-keyframes rotateRight {
+    0% { -webkit-transform: rotate(0deg) translateZ(-1px);}
+    100% { -webkit-transform: rotate(360deg) translateZ(-1px);}
+}
+
+@-moz-keyframes rotateLeft {
+    0% { -webkit-transform: rotate(0deg) translateZ(-1px);}
+    100% {-webkit-transform: rotate(-360deg) translateZ(-1px);}
+}
+
+@-moz-keyframes rotateRight {
+    0% { -webkit-transform: rotate(0deg) translateZ(-1px);}
+    100% { -webkit-transform: rotate(360deg) translateZ(-1px);}
+}
+
+@keyframes rotateLeft {
+    0% { -webkit-transform: rotate(0deg) translateZ(-1px);}
+    100% {-webkit-transform: rotate(-360deg) translateZ(-1px);}
+}
+
+@keyframes rotateRight {
+    0% { -webkit-transform: rotate(0deg) translateZ(-1px);}
+    100% { -webkit-transform: rotate(360deg) translateZ(-1px);}
+}

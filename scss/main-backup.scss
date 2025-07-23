@@ -1,0 +1,451 @@
+//
+// Sidebar Menu - themes.scss
+//
+.sidebar-menu {
+	background-color: var(--black-color);
+	color: var(--white-color);
+	position: fixed;
+	top: 0;
+	left: -320px;
+	overflow-y: scroll;
+
+	/* Hidden by default */
+	margin: 0 auto;
+	padding: 20px;
+	width: 300px;
+	height: 100%;
+	transition: var(--transition);
+	z-index: 1000;
+	box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+
+	// When menu Open
+	&.active {
+		left: 0;
+	}
+}
+
+// themes.scss
+.sidebar-menu-open {
+	background-color: var(--white-color);
+	border: 2px solid var(--black-color);
+	border-radius: 50%;
+	color: var(--black-color);
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	cursor: pointer;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 20px;
+	transition: var(--transition);
+	z-index: 999;
+
+	&:hover {
+		background-color: transparent;
+		border: 2px solid var(--white-color);
+		color: var(--white-color);
+	}
+}
+
+// themes.scss
+.sidebar-menu-close {
+	background-color: var(--white-color);
+	border: 2px solid var(--white-color);
+	color: var(--black-color);
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	cursor: pointer;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	transition: var(--transition);
+
+	&:hover {
+		background-color: transparent;
+		border: 2px solid var(--white-color);
+		color: var(--white-color);
+	}
+}
+
+// Playlist Styles
+.sidebar-menu {
+	h2 {
+		border-bottom: 1px solid var(--white-color);
+		color: var(--white-color);
+		margin: 5px 0 20px 0;
+		padding-bottom: 20px;
+	}
+
+	h3 {
+		margin: 20px 0 10px 0;
+		color: var(--white-color);
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+
+		li {
+			padding: 8px 0;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+			font-size: 14px;
+			transition: var(--transition);
+		}
+	}
+}
+
+//
+// Overlay for when sidebar is open
+//
+.sidebar-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7);
+	z-index: 999;
+	opacity: 0;
+	visibility: hidden;
+	transition: var(--transition);
+
+	&.active {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+
+
+
+// 
+// Screen Sizes
+// 
+@media only screen and (max-width: 600px) {
+	.big-screen {
+		display: none;
+	}
+
+	.small-screen {
+		background: var(--black-color);
+		margin: 0 auto;
+		height: 100vh;
+		display: block;
+		overflow-y: auto;
+	}
+
+	.small-screen h2,
+	.small-screen p,
+	.small-screen i {
+		color: var(--white-color);
+		margin: 0;
+	}
+
+	.small-screen h2 {
+		padding: 40px 30px 0 30px;
+		line-height: 60px;
+	}
+
+	.small-screen p {
+		padding: 20px 30px 0 30px;
+		line-height: 40px;
+	}
+
+	.small-screen i {
+		padding: 0 30px 0 15px;
+	}
+
+	.small-screen .icon-desktop:before,
+	.small-screen .icon-mobile:before {
+		font-size: 90px;
+		padding: 20px 0;
+	}
+
+	.small-screen .icon-instagram:before,
+	.small-screen .icon-twitter:before {
+		font-size: 40px;
+		padding: 20px 0;
+	}
+}
+
+@media only screen and (min-width: 601px) {
+	.big-screen {
+		display: block;
+	}
+
+	.small-screen {
+		display: none;
+	}
+}
+
+
+
+
+
+#mix-tape {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	padding: 20px;
+
+	.switch-tape {
+		/* Helps give 3D illusion on tape spin */
+		-webkit-perspective: 800px;
+		-moz-perspective: 800px;
+		-o-perspective: 800px;
+		-ms-perspective: 800px;
+		perspective: 800px;
+
+		.tape-container {
+			width: 586px;
+			height: 379px;
+			margin: 0 auto;
+			position: relative;
+			-webkit-transition: all .5s ease-out;
+			-moz-transition: all .5s ease-out;
+			-o-transition: all .5s ease-out;
+			-ms-transition: all .5s ease-out;
+			transition: all .5s ease-out;
+		}
+	}
+}
+
+// Used for Error in .js or general page loading - themes.scss
+.pre-loader {
+	// border: 10px solid var(--white-color);
+	// border-top: 10px solid #3c201d;
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	margin: 0 auto;
+	-webkit-animation: pre-loader-spin 2s linear infinite;
+	/* Safari */
+	animation: pre-loader-spin 2s linear infinite;
+	display: none
+}
+
+@-webkit-keyframes pre-loader-spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+@keyframes pre-loader-spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+
+
+
+
+// 
+// Tape Sides
+// 
+.tape-cover {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: transparent url(../img/fr.png) no-repeat center center;
+	top: 0px;
+	left: 0px;
+
+	.tape-side-letter {
+		background: lightgrey;
+		padding: 5px 8px;
+		border-radius: 2px;
+		position: absolute;
+		top: 80px;
+		left: 45px;
+		font-weight: bold;
+		font-size: 15px;
+	}
+
+	.tape-name {
+		position: absolute;
+		top: 260px;
+		left: 78px;
+		// font-family: 'Indie Flower', cursive;
+		font-weight: bold;
+		font-size: 2em;
+	}
+
+	// Rotation Effect of Tape
+	.side-b-of-tape {
+		display: none;
+		-webkit-transform: rotate3d(0, 1, 0, 180deg);
+		-moz-transform: rotate3d(0, 1, 0, 180deg);
+		-o-transform: rotate3d(0, 1, 0, 180deg);
+		-ms-transform: rotate3d(0, 1, 0, 180deg);
+		transform: rotate3d(0, 1, 0, 180deg);
+	}
+}
+
+
+
+
+
+// 
+// Tape Mechanics
+.tape-mechanics {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	background: transparent url(../img/bk.png) no-repeat center center;
+}
+
+.tape-wheels {
+	width: 125px;
+	height: 125px;
+	position: absolute;
+	top: 110px;
+	background: transparent;
+	border-radius: 50%;
+
+	div {
+		width: 100%;
+		height: 100%;
+		background: transparent url(../img/wh.png) no-repeat center center;
+	}
+
+	&.left-wheel {
+		left: 109px;
+		box-shadow: 0 0 0 70px #000;
+	}
+
+	&.right-wheel {
+		right: 113px;
+	}
+}
+
+@-webkit-keyframes rotateLeft {
+	0% {
+		-webkit-transform: rotate(0deg) translateZ(-1px);
+	}
+
+	100% {
+		-webkit-transform: rotate(-360deg) translateZ(-1px);
+	}
+}
+
+@-webkit-keyframes rotateRight {
+	0% {
+		-webkit-transform: rotate(0deg) translateZ(-1px);
+	}
+
+	100% {
+		-webkit-transform: rotate(360deg) translateZ(-1px);
+	}
+}
+
+@keyframes rotateLeft {
+	0% {
+		transform: rotate(0deg) translateZ(-1px);
+	}
+
+	100% {
+		transform: rotate(-360deg) translateZ(-1px);
+	}
+}
+
+@keyframes rotateRight {
+	0% {
+		transform: rotate(0deg) translateZ(-1px);
+	}
+
+	100% {
+		transform: rotate(360deg) translateZ(-1px);
+	}
+}
+
+
+
+
+
+// 
+// Tape Controls
+//
+
+/* Controls list */
+ul.controls-container {
+	list-style: none;
+	width: 100%;
+	margin: 20px 0 50px 0;
+	padding: 0;
+	text-align: center;
+
+	// Display Icons
+	li.forward-btn span:before {
+		content: '\e803';
+	}
+
+	li.rewind-btn span:before {
+		content: '\e804';
+	}
+
+	li.stop-btn span:before {
+		content: '\e802';
+	}
+
+	li.play-btn span:before {
+		content: '\e801';
+	}
+
+	li.switch-btn span:before {
+		content: '\e806';
+		font-weight: 600;
+	}
+}
+
+// Single Control Button - themes.scss
+ul.controls-container li {
+	// background-color: rgba(255, 255, 255, .2);
+	// border: 2px solid var(--white-color);
+	border-radius: 15px;
+	display: inline;
+	padding: 15px 35px;
+	margin: 0 5px;
+	font-size: 18px;
+	text-transform: uppercase;
+	transition: var(--transition);
+	cursor: pointer;
+	user-select: none;
+
+	// Icons- themes.scss
+	span:before {
+		// color: var(--white-color);
+		font-family: "mixtape-icons";
+	}
+
+	// themes.scss
+	&:hover,
+	&.active-btn {
+		// background: rgba(0, 0, 0, .2);
+		// border: 2px solid var(--black-color);
+		transition: var(--transition);
+
+		// - themes.scss
+		// span:before {
+		// 	color: var(--black-color);
+		// }
+	}
+}

@@ -1,0 +1,18 @@
+{
+	"name": "mixtape",
+	"version": "1.0.0",
+	"description": "Interactive old school mixtape website",
+	"scripts": {
+		"css-prod": "sass --no-source-map --watch scss/_entry.scss:css/app.css --style compressed",
+		"css-dev": "sass --no-source-map --watch scss/_entry.scss:css/app.css",
+		"js-prod": "webpack --mode production --watch",
+		"js-dev": "webpack --mode development --watch"
+	},
+	"author": "Mehluli Hikwa",
+	"devDependencies": {
+		"jquery": "^3.7.1",
+		"sass": "^1.89.2",
+		"webpack": "^5.100.2",
+		"webpack-cli": "^6.0.1"
+	}
+}

@@ -1,0 +1,57 @@
+// 
+// Tape Controls
+//
+
+ul.controls-container {
+    list-style: none;
+    width: 100%;
+    margin: 20px 0 50px 0;
+    padding: 0;
+    text-align: center;
+
+    // Display Icons
+    li.forward-btn span:before {
+        content: '\e803';
+    }
+
+    li.rewind-btn span:before {
+        content: '\e804';
+    }
+
+    li.stop-btn span:before {
+        content: '\e802';
+    }
+
+    li.play-btn span:before {
+        content: '\e801';
+    }
+
+    li.switch-btn span:before {
+        content: '\e806';
+        font-weight: 600;
+    }
+}
+
+// Single Control Button/Icon - themes.scss
+ul.controls-container li {
+    border-radius: 15px;
+    display: inline;
+    padding: clamp(8px, 2.5vw, 15px) clamp(20px, 6vw, 35px);
+    margin: 0 5px;
+    font-size: clamp(14px, 3vw, 18px);
+    text-transform: uppercase;
+    transition: var(--transition);
+    cursor: pointer;
+    user-select: none;
+
+    // Icons - themes.scss
+    span:before {
+        font-family: "mixtape-icons";
+    }
+
+    // themes.scss
+    &:hover,
+    &.active-btn {
+        transition: var(--transition);
+    }
+}

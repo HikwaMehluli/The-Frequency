@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	<meta name="description" content="Interactive Mixtape | curated by thatAfro"/>
+	<meta name="keywords" content="thatAfro, mixtape, interactive, Music, Songs, Interactive Mixtape"/>
+	<meta name="author" content="Hikwa Mehluli - thatAfro"/>
+	<title>Interactive Mixtape | curated by thatAfro</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Licorice&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/app.css"/>
+	<link rel="icon" type="image/png" href="./img/favicon.png"/>
+</head>
+
+<body class="love-theme">
+	<div class="sidebar-overlay" id="sidebarOverlay"></div>
+	
+	<section class="sidebar-menu" id="sidebarMenu">
+		<section class="sidebar-menu-close" id="sidebarClose">
+			✕
+		</section>
+
+		<h2>Love Music</h2>
+
+		<h3>Side A</h3>
+		<ul>
+			<li>U Know Whats Up - Donell Jones</li>
+			<li>All I Have - Jennifer Lopez ft LL Cool J</li>
+			<li>Delema - Nelly ft Kelly Rowland</li>
+			<li>Whats love - FatJoe ft Ja-Rule & Ashanti</li>
+			
+		</ul>
+	
+		<h3>Side B</h3>
+		<ul>
+			<li>All My Life - K-Ci & Jojo</li>
+			<li>Candy Rain - Soul For Real</li>
+			<li>Put That Woman First - Jaheim</li>
+			<li>Rendezvous - Craig David</li>
+		</ul>
+
+		<p>
+			<a class="btn" href="amapiano.html">AmaPiano</a>
+			<a class="btn" href="gangster.html">Gangstar Music</a>
+		</p>
+	</section>
+
+	<section class="sidebar-menu-open" id="sidebarOpen">
+		☰
+	</section>
+
+	<section id="mix-tape">
+		<div class="switch-tape">
+			<div class="tape-container">
+				<div class="tape-mechanics">
+					<div class="tape-wheels left-wheel"><div></div></div>
+					<div class="tape-wheels right-wheel"><div></div></div>
+				</div>
+				<div class="tape-cover side-a-of-tape">
+					<div class="tape-side-letter">A</div>
+					<div class="tape-name">Love Mixtape A</div>
+				</div>
+				<div class="tape-cover side-b-of-tape">
+					<div class="tape-side-letter">B</div>
+					<div class="tape-name">Love Mixtape B</div>
+				</div>
+			</div>
+		</div>
+		<div class="pre-loader"></div>
+	</section>
+	
+	<footer>
+		<a href="https://instagram.com/thatAfro">Made with <i class="icon-heart"></i> by thatAfro</a>
+	</footer>
+		
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/sw.js"></script>
+	<script>
+		console.log('%cMixtape design & developed by', 'font-weight: bold; font-size: 15px; color: rgb(2,135,206);');
+		console.log('%cthatAfro', 'font-weight: bold; font-size: 30px;color: rgb(2,135,206);');
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', () => {
+				navigator.serviceWorker.register('./js/sw.js').then(() => {
+					console.log('🎧 Music loaded & in cache thatAfro... Lover Man');
+				}).catch(err => console.error('Music Cache failed thatAfro:', err));
+			});
+		}
+	</script>
+	<script src="./js/sidebar.js"></script>
+	<script src="./js/mixtape-love.js"></script>
+	<script>
+		$(function () {
+			$('#mix-tape').cassette();
+		});		
+	</script>
+</body>
+</html>
