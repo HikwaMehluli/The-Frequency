@@ -1,4 +1,4 @@
-# [Mixtape by thatAfro](https://instagram.com/thatAfro/)
+# [Mixtape by thatAfro](https://thatafro.netlify.app/)
 Interactive old school mixtape website
 
 Link to Live Website -  

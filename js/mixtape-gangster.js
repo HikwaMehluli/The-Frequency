@@ -1,6 +1,6 @@
 /*
 	Developed by Mehluli Hikwa
-	https://www.thatafro.com
+	https://thatafro.netlify.app
 
 	Licensed under the MIT license.
 	http://www.opensource.org/licenses/mit-license.php
