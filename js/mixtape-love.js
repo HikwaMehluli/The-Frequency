@@ -67,7 +67,7 @@
 			// if play / forward / rewind active..
 			this.isMoving		= false;
 
-			this.$loader		= this.$el.find( 'div.pre-loader' ).show();
+			this.$loader		= this.$el.find( 'div.pre-loader-container' ).show();
 
 			// create cassette sides
 			$.when( this._createSides() ).done( function() {

@@ -1,23 +1,27 @@
-// Used for Error in .js or general page loading - themes.scss
-.pre-loader {
-    border-radius: 50%;
-    width: min(120px, 25vw);
-    height: min(120px, 25vw);
+
+.pre-loader-container {
+    position: relative;
+    width: min(150px, 30vw);
+    height: min(150px, 30vw);
     margin: 0 auto;
-    -webkit-animation: pre-loader-spin 2s linear infinite;
-    animation: pre-loader-spin 2s linear infinite;
     display: none;
     justify-content: center;
     align-items: center;
-    font-size: 1.2rem;
-    color: #fff;
-    flex-direction: column;
-    display: flex;
 
     .percentage {
-        font-size: 2.5rem;
-        font-weight: bold;
+        position: absolute;
+        font-size: 3rem;
+        font-weight: 700;
+        color: #fff;
     }
+}
+
+.pre-loader {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    -webkit-animation: pre-loader-spin 2s linear infinite;
+    animation: pre-loader-spin 2s linear infinite;
 }
 
 @-webkit-keyframes pre-loader-spin {
@@ -32,10 +36,10 @@
 
 @keyframes pre-loader-spin {
     0% {
-        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
 
     100% {
-        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
     }
 }
