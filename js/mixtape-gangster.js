@@ -98,11 +98,14 @@
 			var playlistSide1 	= [],
 				playlistSide2 	= [],
 				_self 			= this, 
-				cnt 			= 0;
+				cnt 			= 0,
+				loadedSongs 	= 0,
+				len 			= _self.options.songs.length,
+				$percentage 	= this.$loader.find('.percentage');
 				
 			return $.Deferred(
 				function( dfd ) {
-					for( var i = 0, len = _self.options.songs.length; i < len; ++i ) {
+					for( var i = 0; i < len; ++i ) {
 						
 						var song = new $.Song( _self.options.songs[i], i );
 						
@@ -110,6 +113,10 @@
 							( song.id < len / 2 ) ? playlistSide1.push( song ) : playlistSide2.push( song );
 							
 							++cnt;
+
+							loadedSongs++;
+							var percentage = Math.round((loadedSongs / len) * 100);
+							$percentage.text(percentage + '%');
 							
 							if( cnt === len ) {
 								// two sides, each side with multiple songs

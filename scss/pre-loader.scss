@@ -1,12 +1,23 @@
 // Used for Error in .js or general page loading - themes.scss
 .pre-loader {
     border-radius: 50%;
-    width: min(80px, 15vw);
-    height: min(80px, 15vw);
+    width: min(120px, 25vw);
+    height: min(120px, 25vw);
     margin: 0 auto;
     -webkit-animation: pre-loader-spin 2s linear infinite;
     animation: pre-loader-spin 2s linear infinite;
     display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #fff;
+    flex-direction: column;
+    display: flex;
+
+    .percentage {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
 }
 
 @-webkit-keyframes pre-loader-spin {
