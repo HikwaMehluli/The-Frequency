@@ -7,14 +7,14 @@
 	
 */
 
-( function( window, $, undefined ) {
+(function (window, $, undefined) {
 	var aux = {
-		getSupportedType : function() {
-			var audio = document.createElement( 'audio' );
-			if ( audio.canPlayType('audio/mpeg;') ) {
+		getSupportedType: function () {
+			var audio = document.createElement('audio');
+			if (audio.canPlayType('audio/mpeg;')) {
 				return 'mp3';
 			}
-			else if ( audio.canPlayType('audio/ogg;') ) {
+			else if (audio.canPlayType('audio/ogg;')) {
 				return 'ogg';
 			}
 			// You can uncomment if you have a wav equal
@@ -23,13 +23,13 @@
 			// }
 		}
 	};
-	
+
 	// Cassette Object
-	$.Cassette = function( options, element ) {
-		this.$el = $( element );
-		this._init( options );
+	$.Cassette = function (options, element) {
+		this.$el = $(element);
+		this._init(options);
 	};
-	
+
 	$.Cassette.defaults = {
 		// SONG NAMES. Assumes the path to each song is songs/name.filetype
 		songs: [
@@ -43,306 +43,331 @@
 			'Ghetto Scandalous - Zola & Kabelo',
 			'Champion Sound',
 		],
-		fallbackMessage	: 'HTML5 audio not supported',
+		fallbackMessage: 'HTML5 audio not supported',
 
 		// Initial Volume Level
-		initialVolume	: 0.7
+		initialVolume: 0.7
 	};
-	
+
 	$.Cassette.prototype = {
-		_init : function( options ) {
+		_init: function (options) {
 			var _self = this;
 			// the options
-			this.options		= $.extend( true, {}, $.Cassette.defaults, options );
+			this.options = $.extend(true, {}, $.Cassette.defaults, options);
 			// current side of the tape
-			this.currentSide	= 1;
+			this.currentSide = 1;
 			// current time of playing side
-			this.cntTime		= 0;
+			this.cntTime = 0;
 			// current sum of the duration of played songs 
-			this.timeIterator	= 0;
+			this.timeIterator = 0;
 			// used for rewind / forward
-			this.elapsed		= 0.0;
+			this.elapsed = 0.0;
 			// action performed
-			this.lastaction		= '';
+			this.lastaction = '';
 			// if play / forward / rewind active..
-			this.isMoving		= false;
+			this.isMoving = false;
 
-			this.$loader		= this.$el.find( 'div.pre-loader-container' ).show();
+			this.$loader = this.$el.find('div.pre-loader-container').show();
 
 			// create cassette sides
-			$.when( this._createSides() ).done( function() {
-			
+			$.when(this._createSides()).done(function () {
+
 				_self.$loader.hide();
-			
+
 				// create player
 				_self._createPlayer();
 				_self.sound = new $.Sound();
 
 				// load events
 				_self._loadEvents();
-			});	
+
+				// populate playlist in DOM
+				_self._populatePlaylistHTML();
+			});
 		},
 
-		_getSide : function() {
-			return ( this.currentSide === 1 ) ? {
-				current : this.side1,
-				reverse : this.side2	
+		_getSide: function () {
+			return (this.currentSide === 1) ? {
+				current: this.side1,
+				reverse: this.side2
 			} : {
-				current : this.side2,
-				reverse : this.side1	
+				current: this.side2,
+				reverse: this.side1
 			};
 		},
 
 		// Distribution of Songs equally on both sides
-		_createSides : function() {
-			var playlistSide1 	= [],
-				playlistSide2 	= [],
-				_self 			= this, 
-				cnt 			= 0,
-				loadedSongs 	= 0,
-				len 			= _self.options.songs.length,
-				$percentage 	= this.$loader.find('.percentage');
-				
+		_createSides: function () {
+			var playlistSide1 = [],
+				playlistSide2 = [],
+				_self = this,
+				cnt = 0,
+				loadedSongs = 0,
+				len = _self.options.songs.length,
+				$percentage = this.$loader.find('.percentage');
+
 			return $.Deferred(
-				function( dfd ) {
-					for( var i = 0; i < len; ++i ) {
-						
-						var song = new $.Song( _self.options.songs[i], i );
-						
-						$.when( song.loadMetadata() ).done( function( song ) {
-							( song.id < len / 2 ) ? playlistSide1.push( song ) : playlistSide2.push( song );
-							
+				function (dfd) {
+					for (var i = 0; i < len; ++i) {
+
+						var song = new $.Song(_self.options.songs[i], i);
+
+						$.when(song.loadMetadata()).done(function (song) {
+							(song.id < len / 2) ? playlistSide1.push(song) : playlistSide2.push(song);
+
 							++cnt;
 
 							loadedSongs++;
 							var percentage = Math.round((loadedSongs / len) * 100);
 							$percentage.text(percentage + '%');
-							
-							if( cnt === len ) {
+
+							if (cnt === len) {
 								// two sides, each side with multiple songs
-								_self.side1 	= new $.Side( 'side1', playlistSide1, 'start' ),
-								_self.side2		= new $.Side( 'side2', playlistSide2, 'end' );
+								_self.side1 = new $.Side('side1', playlistSide1, 'start'),
+									_self.side2 = new $.Side('side2', playlistSide2, 'end');
 								dfd.resolve();
 							}
-						} );
+						});
 					}
 				}
 			).promise();
 		},
 
-		_createPlayer : function() {
-			
+		_populatePlaylistHTML: function () {
+			var songs = this.options.songs,
+				len = songs.length,
+				$sideAList = $('#side-a-list'),
+				$sideBList = $('#side-b-list');
+
+			// clear existing lists just in case
+			$sideAList.empty();
+			$sideBList.empty();
+
+			for (var i = 0; i < len; ++i) {
+				var songName = songs[i];
+				var $li = $('<li>' + songName + '</li>');
+
+				if (i < len / 2) {
+					$sideAList.append($li);
+				} else {
+					$sideBList.append($li);
+				}
+			}
+		},
+
+		_createPlayer: function () {
+
 			// create HTML5 audio element
-			this.$audioEl	= $( '<audio id="audioElem"><span>' + this.options.fallbackMessage + '</span></audio>' );
-			this.$el.prepend( this.$audioEl );
-			
-			this.audio		= this.$audioEl.get(0);
+			this.$audioEl = $('<audio id="audioElem"><span>' + this.options.fallbackMessage + '</span></audio>');
+			this.$el.prepend(this.$audioEl);
+
+			this.audio = this.$audioEl.get(0);
 
 			// create custom controls
 			this._createControls();
-			this.$theTape	= this.$el.find( 'div.tape-container' );
-			this.$wheelLeft	= this.$theTape.find( 'div.left-wheel' );
-			this.$wheelRight= this.$theTape.find( 'div.right-wheel' );
-			this.$tapeSideA	= this.$theTape.find( 'div.side-a-of-tape' ).show();
-			this.$tapeSideB	= this.$theTape.find( 'div.side-b-of-tape' );
+			this.$theTape = this.$el.find('div.tape-container');
+			this.$wheelLeft = this.$theTape.find('div.left-wheel');
+			this.$wheelRight = this.$theTape.find('div.right-wheel');
+			this.$tapeSideA = this.$theTape.find('div.side-a-of-tape').show();
+			this.$tapeSideB = this.$theTape.find('div.side-b-of-tape');
 		},
 
-		_createControls : function() {
-			var _self		= this;
-			this.$controls 	= $( '<ul class="controls-container" style="display:none;"/>' );
-			this.$cPlay		= $( '<li class="play-btn"><span></span></li>' );
-			this.$cRewind	= $( '<li class="rewind-btn"><span></span></li>' );
-			this.$cForward	= $( '<li class="forward-btn"><span></span></li>' );
-			this.$cStop		= $( '<li class="stop-btn"><span></span></li>' );
-			this.$cSwitch	= $( '<li class="switch-btn"><span></span></li>' );
-			
-			this.$controls.append( this.$cPlay )
-						  .append( this.$cRewind )
-						  .append( this.$cForward )
-						  .append( this.$cStop )
-						  .append( this.$cSwitch )
-						  .appendTo( this.$el );
+		_createControls: function () {
+			var _self = this;
+			this.$controls = $('<ul class="controls-container" style="display:none;"/>');
+			this.$cPlay = $('<li class="play-btn"><span></span></li>');
+			this.$cRewind = $('<li class="rewind-btn"><span></span></li>');
+			this.$cForward = $('<li class="forward-btn"><span></span></li>');
+			this.$cStop = $('<li class="stop-btn"><span></span></li>');
+			this.$cSwitch = $('<li class="switch-btn"><span></span></li>');
+
+			this.$controls.append(this.$cPlay)
+				.append(this.$cRewind)
+				.append(this.$cForward)
+				.append(this.$cStop)
+				.append(this.$cSwitch)
+				.appendTo(this.$el);
 
 			if (document.createElement('audio').canPlayType) {
 				if (!document.createElement('audio').canPlayType('audio/mpeg') && !document.createElement('audio').canPlayType('audio/ogg')) {
-					
+
 					// TODO: flash fallback!
-				
-				} 
+
+				}
 				else {
 					this.$controls.show();
 				}
 			}
 		},
 
-		_loadEvents : function() {
-			
+		_loadEvents: function () {
+
 			var _self = this;
-			
-			this.$cSwitch.on( 'mousedown', function( event ) {
+
+			this.$cSwitch.on('mousedown', function (event) {
 				_self._switchSides();
-			} );
-			
-			this.$cPlay.on( 'mousedown', function( event ) {
+			});
+
+			this.$cPlay.on('mousedown', function (event) {
 				_self._play();
-			} );
-			
-			this.$cStop.on( 'mousedown', function( event ) {
+			});
+
+			this.$cStop.on('mousedown', function (event) {
 				_self._stop();
-			} );
+			});
 
-			this.$cForward.on( 'mousedown', function( event ) {
+			this.$cForward.on('mousedown', function (event) {
 				_self._forward();
-			} );
+			});
 
-			this.$cRewind.on( 'mousedown', function( event ) {			
+			this.$cRewind.on('mousedown', function (event) {
 				_self._rewind();
-			} );
-			
-			this.$audioEl.on( 'timeupdate', function( event ) {
-				_self.cntTime	= _self.timeIterator + _self.audio.currentTime;
-				var wheelVal	= _self._getWheelValues( _self.cntTime );
-				_self._updateWheelValue( wheelVal );
-			});
-			
-			this.$audioEl.on( 'loadedmetadata', function( event ) {
-				
 			});
 
-			this.$audioEl.on( 'ended', function( event ) {
+			this.$audioEl.on('timeupdate', function (event) {
+				_self.cntTime = _self.timeIterator + _self.audio.currentTime;
+				var wheelVal = _self._getWheelValues(_self.cntTime);
+				_self._updateWheelValue(wheelVal);
+			});
+
+			this.$audioEl.on('loadedmetadata', function (event) {
+
+			});
+
+			this.$audioEl.on('ended', function (event) {
 				_self.timeIterator += _self.audio.duration;
 				_self._play();
 			});
-		
+
 		},
-		
-		_updateAction : function( action ) {
+
+		_updateAction: function (action) {
 			this.lastaction = action;
 		},
 
-		_prepare : function( song ) {
+		_prepare: function (song) {
 			this._clear();
-			this.$audioEl.attr( 'src', song.getSource( aux.getSupportedType() ) );
+			this.$audioEl.attr('src', song.getSource(aux.getSupportedType()));
 		},
 
-		_switchSides : function() {
-			if( this.isMoving ) {
-				alert( 'Please stop the music before you switch sides.' );
+		_switchSides: function () {
+			if (this.isMoving) {
+				alert('Please stop the music before you switch sides.');
 				return false;
 			}
-			
-			this.sound.play( 'switch' );
+
+			this.sound.play('switch');
 
 			var _self = this;
 
 			this.lastaction = '';
 
-			if( this.currentSide === 1 ) {
+			if (this.currentSide === 1) {
 
 				this.currentSide = 2;
 
-				this.$theTape.css( {
-					'-webkit-transform'	: 'rotate3d(0, 1, 0, -180deg)',
-					'-moz-transform'	: 'rotate3d(0, 1, 0, -180deg)',
-					'-o-transform'		: 'rotate3d(0, 1, 0, -180deg)',
-					'-ms-transform'		: 'rotate3d(0, 1, 0, -180deg)',
-					'transform'			: 'rotate3d(0, 1, 0, -180deg)'
-				} );
+				this.$theTape.css({
+					'-webkit-transform': 'rotate3d(0, 1, 0, -180deg)',
+					'-moz-transform': 'rotate3d(0, 1, 0, -180deg)',
+					'-o-transform': 'rotate3d(0, 1, 0, -180deg)',
+					'-ms-transform': 'rotate3d(0, 1, 0, -180deg)',
+					'transform': 'rotate3d(0, 1, 0, -180deg)'
+				});
 
-				setTimeout( function() {
+				setTimeout(function () {
 					_self.$tapeSideA.hide();
 					_self.$tapeSideB.show();
 
 					// update wheels
 					_self.cntTime = _self._getPosTime();
-				}, 200 );
-			} 
+				}, 200);
+			}
 			else {
 
 				this.currentSide = 1;
 
-				this.$theTape.css( {
-					'-webkit-transform'	: 'rotate3d(0, 1, 0, 0deg)',
-					'-moz-transform'	: 'rotate3d(0, 1, 0, 0deg)',
-					'-o-transform'		: 'rotate3d(0, 1, 0, 0deg)',
-					'-ms-transform'		: 'rotate3d(0, 1, 0, 0deg)',
-					'transform'			: 'rotate3d(0, 1, 0, 0deg)'
-				} );
+				this.$theTape.css({
+					'-webkit-transform': 'rotate3d(0, 1, 0, 0deg)',
+					'-moz-transform': 'rotate3d(0, 1, 0, 0deg)',
+					'-o-transform': 'rotate3d(0, 1, 0, 0deg)',
+					'-ms-transform': 'rotate3d(0, 1, 0, 0deg)',
+					'transform': 'rotate3d(0, 1, 0, 0deg)'
+				});
 
-				setTimeout( function() {
+				setTimeout(function () {
 					_self.$tapeSideB.hide();
 					_self.$tapeSideA.show();
 
 					// update wheels
 					_self.cntTime = _self._getPosTime();
-				}, 200 );
+				}, 200);
 			}
 		},
 
-		_updateButtons : function( button ) {
+		_updateButtons: function (button) {
 
 			var pressedClass = 'active-btn';
 
-			this.$cPlay.removeClass( pressedClass );
-			this.$cStop.removeClass( pressedClass );
-			this.$cRewind.removeClass( pressedClass );
-			this.$cForward.removeClass( pressedClass );
+			this.$cPlay.removeClass(pressedClass);
+			this.$cStop.removeClass(pressedClass);
+			this.$cRewind.removeClass(pressedClass);
+			this.$cForward.removeClass(pressedClass);
 
-			switch( button ) {
-				case 'play'		: this.$cPlay.addClass( pressedClass ); break;
-				case 'rewind'	: this.$cRewind.addClass( pressedClass ); break;
-				case 'forward'	: this.$cForward.addClass( pressedClass ); break;
+			switch (button) {
+				case 'play': this.$cPlay.addClass(pressedClass); break;
+				case 'rewind': this.$cRewind.addClass(pressedClass); break;
+				case 'forward': this.$cForward.addClass(pressedClass); break;
 			}
 		},
 
-		_play : function() {
+		_play: function () {
 
 			var _self = this;
 
-			this._updateButtons( 'play' );
+			this._updateButtons('play');
 
-			$.when( this.sound.play( 'click' ) ).done( function() {
+			$.when(this.sound.play('click')).done(function () {
 
 				var data = _self._updateStatus();
-				if( data ) {
+				if (data) {
 
-					_self._prepare( _self._getSide().current.getSong( data.songIdx ) );
-				
-					_self.$audioEl.on( 'canplay', function( event ) {
+					_self._prepare(_self._getSide().current.getSong(data.songIdx));
 
-						$( this ).off( 'canplay' );
-						
+					_self.$audioEl.on('canplay', function (event) {
+
+						$(this).off('canplay');
+
 						_self.audio.currentTime = data.timeInSong;
 						_self.audio.play();
 						_self.isMoving = true;
 
-						_self._setWheelAnimation( '2s', 'play' );
+						_self._setWheelAnimation('2s', 'play');
 					});
 				}
 			});
 		},
 
-		_updateStatus : function( buttons ) {
+		_updateStatus: function (buttons) {
 
-			var posTime	= this.cntTime;
+			var posTime = this.cntTime;
 
 			// first stop
-			this._stop( true );
+			this._stop(true);
 
-			this._setSidesPosStatus( 'middle' );
+			this._setSidesPosStatus('middle');
 
 			// the current time to play is this.cntTime +/- [this.elapsed]
-			if( this.lastaction === 'forward' ) {
+			if (this.lastaction === 'forward') {
 				posTime += this.elapsed;
 			}
-			else if( this.lastaction === 'rewind' ) {
+			else if (this.lastaction === 'rewind') {
 				posTime -= this.elapsed;
 			}
 
 			// check if we have more songs to play on the current side..
-			if( posTime >= this._getSide().current.getDuration() ) {
-				this._stop( buttons );
-				this._setSidesPosStatus( 'end' );
+			if (posTime >= this._getSide().current.getDuration()) {
+				this._stop(buttons);
+				this._setSidesPosStatus('end');
 				return false;
 			}
 
@@ -350,7 +375,7 @@
 
 			// given this, we need to know which song is playing at this point in time,
 			// and from which point in time within the song we will play
-			var data = this._getSongInfoByTime( posTime );
+			var data = this._getSongInfoByTime(posTime);
 
 			// update cntTime
 			this.cntTime = posTime;
@@ -360,56 +385,56 @@
 			return data;
 		},
 
-		_rewind : function() {
+		_rewind: function () {
 			var _self = this,
 				action = 'rewind';
 
-			if( this._getSide().current.getPositionStatus() === 'start' ) {
+			if (this._getSide().current.getPositionStatus() === 'start') {
 				return false;
 			}
 
-			this._updateButtons( action );
+			this._updateButtons(action);
 
-			$.when( this.sound.play( 'click' ) ).done( function() {
+			$.when(this.sound.play('click')).done(function () {
 
-				_self._updateStatus( true );
+				_self._updateStatus(true);
 				_self.isMoving = true;
 
-				_self._updateAction( action );
-				_self.sound.play( 'rewind', true );
-				_self._setWheelAnimation( '0.5s', action );
+				_self._updateAction(action);
+				_self.sound.play('rewind', true);
+				_self._setWheelAnimation('0.5s', action);
 				_self._timer();
-			} );
+			});
 		},
 
-		_forward : function() {
+		_forward: function () {
 
 			var _self = this,
 				action = 'forward';
 
-			if( this._getSide().current.getPositionStatus() === 'end' ) {
+			if (this._getSide().current.getPositionStatus() === 'end') {
 				return false;
 			}
 
-			this._updateButtons( action );
+			this._updateButtons(action);
 
-			$.when( this.sound.play( 'click' ) ).done( function() {
-			
-				_self._updateStatus( true );
+			$.when(this.sound.play('click')).done(function () {
+
+				_self._updateStatus(true);
 				_self.isMoving = true;
-			
-				_self._updateAction( action );
-				_self.sound.play( 'fforward', true );
-				_self._setWheelAnimation( '0.5s', action );
+
+				_self._updateAction(action);
+				_self.sound.play('fforward', true);
+				_self._setWheelAnimation('0.5s', action);
 				_self._timer();
-			} );
+			});
 		},
 
-		_stop : function( buttons ) {
-			
-			if( !buttons ) { 
-				this._updateButtons( 'stop' );
-				this.sound.play( 'click' );
+		_stop: function (buttons) {
+
+			if (!buttons) {
+				this._updateButtons('stop');
+				this.sound.play('click');
 			}
 			this.isMoving = false;
 			this._stopWheels();
@@ -417,42 +442,42 @@
 			this._stopTimer();
 		},
 
-		_clear : function() {
-			this.$audioEl.children( 'source' ).remove();
+		_clear: function () {
+			this.$audioEl.children('source').remove();
 		},
 
-		_setSidesPosStatus : function( position ) {
+		_setSidesPosStatus: function (position) {
 
-			this._getSide().current.setPositionStatus( position );
+			this._getSide().current.setPositionStatus(position);
 
-			switch( position ) {
-				case 'middle'	: this._getSide().reverse.setPositionStatus( position );break;
-				case 'start'	: this._getSide().reverse.setPositionStatus( 'end' );break;
-				case 'end'		: this._getSide().reverse.setPositionStatus( 'start' );break;
+			switch (position) {
+				case 'middle': this._getSide().reverse.setPositionStatus(position); break;
+				case 'start': this._getSide().reverse.setPositionStatus('end'); break;
+				case 'end': this._getSide().reverse.setPositionStatus('start'); break;
 			}
 		},
 
 		// given a point in time for the current side, returns the respective song of that side and the respective time within the song
-		_getSongInfoByTime : function( time ) {
+		_getSongInfoByTime: function (time) {
 
-			var data		= { songIdx : 0, timeInSong : 0 },
-				side		= this._getSide().current,
-				playlist	= side.getPlaylist(),
-				len			= side.getPlaylistCount(),
-				cntTime		= 0;
+			var data = { songIdx: 0, timeInSong: 0 },
+				side = this._getSide().current,
+				playlist = side.getPlaylist(),
+				len = side.getPlaylistCount(),
+				cntTime = 0;
 
-			for( var i = 0; i < len; ++i ) {
+			for (var i = 0; i < len; ++i) {
 
-				var song		= playlist[ i ],
-					duration	= song.getDuration();
+				var song = playlist[i],
+					duration = song.getDuration();
 
 				cntTime += duration;
 
-				if( cntTime > time ) {
+				if (cntTime > time) {
 
-					data.songIdx	= i;
-					data.timeInSong	= time - ( cntTime - duration );
-					data.iterator	= cntTime - duration;
+					data.songIdx = i;
+					data.timeInSong = time - (cntTime - duration);
+					data.iterator = cntTime - duration;
 
 					return data;
 				}
@@ -460,364 +485,364 @@
 			return data;
 		},
 
-		_getWheelValues : function( x ) {
+		_getWheelValues: function (x) {
 
-			var T	= this._getSide().current.getDuration(),
+			var T = this._getSide().current.getDuration(),
 				val = {
-					left	: ( this.currentSide === 1 ) ? ( -70 / T ) * x + 70 : ( 70 / T ) * x,
-					right	: ( this.currentSide === 1 ) ?  ( 70 / T ) * x : ( -70 / T ) * x + 70
+					left: (this.currentSide === 1) ? (-70 / T) * x + 70 : (70 / T) * x,
+					right: (this.currentSide === 1) ? (70 / T) * x : (-70 / T) * x + 70
 				};
 			return val;
 		},
 
-		_getPosTime : function() {
+		_getPosTime: function () {
 
-			var wleft = this.$wheelLeft.data( 'wheel' ),
-				wright = this.$wheelRight.data( 'wheel' );
+			var wleft = this.$wheelLeft.data('wheel'),
+				wright = this.$wheelRight.data('wheel');
 
-			if( wleft === undefined ) {
+			if (wleft === undefined) {
 
 				wleft = 70;
 
 			}
-			if( wright === undefined ) {
+			if (wright === undefined) {
 
 				wright = 0;
 			}
-			
+
 			var T = this._getSide().current.getDuration(),
-			posTime	= this.currentSide === 2 ? ( T * wleft ) / 70 : ( T * wright ) / 70;
+				posTime = this.currentSide === 2 ? (T * wleft) / 70 : (T * wright) / 70;
 
 			return posTime;
 		},
 
-		_updateWheelValue : function( wheelVal ) {
-			
+		_updateWheelValue: function (wheelVal) {
+
 			// this.$wheelLeft.data( 'wheel', wheelVal.left ).css( { 'box-shadow' : '0 0 0 ' + wheelVal.left + 'px black' } );
 			// this.$wheelRight.data( 'wheel', wheelVal.right ).css( { 'box-shadow' : '0 0 0 ' + wheelVal.right + 'px black' } );
 
-			this.$wheelLeft.data( 'wheel', wheelVal.left ).css( { 'box-shadow' : '0 0 0 min( ' + wheelVal.left + 'px, 12vw) black' } );
-			this.$wheelRight.data( 'wheel', wheelVal.right ).css( { 'box-shadow' : '0 0 0 min( ' + wheelVal.right + 'px, 12vw) black' } );
+			this.$wheelLeft.data('wheel', wheelVal.left).css({ 'box-shadow': '0 0 0 min( ' + wheelVal.left + 'px, 12vw) black' });
+			this.$wheelRight.data('wheel', wheelVal.right).css({ 'box-shadow': '0 0 0 min( ' + wheelVal.right + 'px, 12vw) black' });
 
 		},
 
-		_setWheelAnimation : function( speed, mode ) {
+		_setWheelAnimation: function (speed, mode) {
 
-			var _self = this, anim 	= '';
+			var _self = this, anim = '';
 
-			switch( this.currentSide ) {
+			switch (this.currentSide) {
 
-				case 1 :
-					if( mode === 'play' || mode === 'forward' ) {
+				case 1:
+					if (mode === 'play' || mode === 'forward') {
 						anim = 'rotateLeft';
 					}
-					else if( mode === 'rewind' ) {
+					else if (mode === 'rewind') {
 						anim = 'rotateRight';
 					}
 					break;
-				case 2 :
-					if( mode === 'play' || mode === 'forward' ) {
+				case 2:
+					if (mode === 'play' || mode === 'forward') {
 						anim = 'rotateRight';
 					}
-					else if( mode === 'rewind' ) {
+					else if (mode === 'rewind') {
 						anim = 'rotateLeft';
 					}
 					break;
 			}
 
-			var animStyle = { 
-				'-webkit-animation'	: anim + ' ' + speed + ' linear infinite forwards',
-				'-moz-animation'	: anim + ' ' + speed + ' linear infinite forwards',
-				'-o-animation'		: anim + ' ' + speed + ' linear infinite forwards',
-				'-ms-animation'		: anim + ' ' + speed + ' linear infinite forwards',
-				'animation'			: anim + ' ' + speed + ' linear infinite forwards'
+			var animStyle = {
+				'-webkit-animation': anim + ' ' + speed + ' linear infinite forwards',
+				'-moz-animation': anim + ' ' + speed + ' linear infinite forwards',
+				'-o-animation': anim + ' ' + speed + ' linear infinite forwards',
+				'-ms-animation': anim + ' ' + speed + ' linear infinite forwards',
+				'animation': anim + ' ' + speed + ' linear infinite forwards'
 			};
 
-			setTimeout( function() {
+			setTimeout(function () {
 
 				_self.$wheelLeft.css(animStyle);
 				_self.$wheelRight.css(animStyle);
 
-			}, 0 );			
+			}, 0);
 		},
 
-		_stopWheels : function() {
+		_stopWheels: function () {
 
 			var wheelStyle = {
-				'-webkit-animation'	: 'none',
-				'-moz-animation'	: 'none',
-				'-o-animation'		: 'none',
-				'-ms-animation'		: 'none',
-				'animation'			: 'none'
+				'-webkit-animation': 'none',
+				'-moz-animation': 'none',
+				'-o-animation': 'none',
+				'-ms-animation': 'none',
+				'animation': 'none'
 			}
 
-			this.$wheelLeft.css( wheelStyle );
-			this.$wheelRight.css( wheelStyle );
+			this.$wheelLeft.css(wheelStyle);
+			this.$wheelRight.css(wheelStyle);
 		},
 
 		// credits: http://www.sitepoint.com/creating-accurate-timers-in-javascript/
-		_timer : function() {
+		_timer: function () {
 
-			var _self	= this,
-				start	= new Date().getTime(),  
-				time	= 0;
+			var _self = this,
+				start = new Date().getTime(),
+				time = 0;
 
 			this._resetElapsed();
 
 			this.isSeeking = true;
-			
-			this._setSidesPosStatus( 'middle' );
-			
-			if( this.isSeeking ) {
-			
-				clearTimeout( this.timertimeout );
-				this.timertimeout = setTimeout( function() {
 
-					_self._timerinstance( start, time );
+			this._setSidesPosStatus('middle');
 
-				}, 100 );
+			if (this.isSeeking) {
+
+				clearTimeout(this.timertimeout);
+				this.timertimeout = setTimeout(function () {
+
+					_self._timerinstance(start, time);
+
+				}, 100);
 			}
 		},
-		_timerinstance : function( start, time ) {
+		_timerinstance: function (start, time) {
 
-			var _self = this;	
+			var _self = this;
 
-			time += 100;  
-			
-			this.elapsed = Math.floor(time / 20) / 10;  
-			
-			if( Math.round( this.elapsed ) == this.elapsed ) { 
+			time += 100;
+
+			this.elapsed = Math.floor(time / 20) / 10;
+
+			if (Math.round(this.elapsed) == this.elapsed) {
 
 				this.elapsed += 0.0;
 
-			}  
-			
+			}
+
 			// stop if it reaches the end of the cassette / side
 			// or if it reaches the beginning
 			var posTime = this.cntTime;
 
-			if( this.lastaction === 'forward' ) {
+			if (this.lastaction === 'forward') {
 				posTime += this.elapsed;
 			}
-			else if( this.lastaction === 'rewind' ) {
+			else if (this.lastaction === 'rewind') {
 				posTime -= this.elapsed;
 			}
 
-			var wheelVal = this._getWheelValues( posTime );
-			this._updateWheelValue( wheelVal );
+			var wheelVal = this._getWheelValues(posTime);
+			this._updateWheelValue(wheelVal);
 
-			if( posTime >= this._getSide().current.getDuration() || posTime <= 0 ) {
+			if (posTime >= this._getSide().current.getDuration() || posTime <= 0) {
 				this._stop();
-				( posTime <= 0) ? this.cntTime = 0 : this.cntTime = posTime;
+				(posTime <= 0) ? this.cntTime = 0 : this.cntTime = posTime;
 				this._resetElapsed();
-				( posTime <= 0) ? this._setSidesPosStatus( 'start' ) : this._setSidesPosStatus( 'end' );
+				(posTime <= 0) ? this._setSidesPosStatus('start') : this._setSidesPosStatus('end');
 				return false;
 			}
 
-			var diff = (new Date().getTime() - start) - time;  
-			
-			if( this.isSeeking ) {
-				clearTimeout( this.timertimeout );
-				this.timertimeout = setTimeout( function() {
-					_self._timerinstance( start, time );
-				}, ( 100 - diff ) );
+			var diff = (new Date().getTime() - start) - time;
+
+			if (this.isSeeking) {
+				clearTimeout(this.timertimeout);
+				this.timertimeout = setTimeout(function () {
+					_self._timerinstance(start, time);
+				}, (100 - diff));
 			}
 		},
 
-		_stopTimer : function() {
-			clearTimeout( this.timertimeout );
+		_stopTimer: function () {
+			clearTimeout(this.timertimeout);
 			this.isSeeking = false;
 		},
 
-		_resetElapsed : function() {
+		_resetElapsed: function () {
 			this.elapsed = 0.0;
 		}
 	};
-	
+
 	// Cassette side obj
-	$.Side = function( id, playlist, status ) {
-	
+	$.Side = function (id, playlist, status) {
+
 		// side's name / id
-		this.id 		= id;
+		this.id = id;
 		// status is "start", "middle" or "end"
-		this.status		= status;
+		this.status = status;
 		// array of songs sorted by song id
-		this.playlist	= playlist.sort( function( a, b ) {
-			
+		this.playlist = playlist.sort(function (a, b) {
+
 			var aid = a.id,
-				bid	= b.id;
-			
-			return ( ( aid < bid ) ? -1 : ( ( aid > bid ) ? 1 : 0 ) );
-			
-		} );
+				bid = b.id;
+
+			return ((aid < bid) ? -1 : ((aid > bid) ? 1 : 0));
+
+		});
 		// set playlist duration
 		this._setDuration();
 		// total number of songs
-		this.playlistCount	= playlist.length;
-		
+		this.playlistCount = playlist.length;
+
 	};
-	
+
 	$.Side.prototype = {
-		getSong : function( num ) {
-			return this.playlist[ num ];
+		getSong: function (num) {
+			return this.playlist[num];
 		},
-		getPlaylist : function() {
+		getPlaylist: function () {
 			return this.playlist;
 		},
-		_setDuration : function() {
+		_setDuration: function () {
 			this.duration = 0;
-			for( var i = 0, len = this.playlist.length; i < len; ++i ) {
-				this.duration += this.playlist[ i ].duration;
+			for (var i = 0, len = this.playlist.length; i < len; ++i) {
+				this.duration += this.playlist[i].duration;
 			}
 		},
-		getDuration : function() {
+		getDuration: function () {
 			return this.duration;
 		},
-		getPlaylistCount : function() {
+		getPlaylistCount: function () {
 			return this.playlistCount;
 		},
-		setPositionStatus : function( status ) {
+		setPositionStatus: function (status) {
 			this.status = status;
 		},
-		getPositionStatus : function() {
+		getPositionStatus: function () {
 			return this.status;
 		}
 	};
-	
+
 	// Song obj
-	$.Song = function( name, id ) {
-		this.id		= id;
-		this.name 	= name;
+	$.Song = function (name, id) {
+		this.id = id;
+		this.name = name;
 		this._init();
 	};
-	
+
 	$.Song.prototype = {
 
-		_init : function() {
-			this.sources	= {
-				mp3	: 'songs/' + this.name + '.mp3',
-				ogg	: 'songs/' + this.name + '.ogg'
+		_init: function () {
+			this.sources = {
+				mp3: 'songs/' + this.name + '.mp3',
+				ogg: 'songs/' + this.name + '.ogg'
 			};
 		},
 
-		getSource : function( type ) {
+		getSource: function (type) {
 			return this.sources[type];
 		},
 
 		// load metadata to get the duration of the song
-		loadMetadata : function() {
-			
+		loadMetadata: function () {
+
 			var _self = this;
-			
+
 			return $.Deferred(
-			
-				function( dfd ) {
-					
-					var $tmpAudio 	= $( '<audio/>' ),
-						songsrc		= _self.getSource( aux.getSupportedType() );
-					
-					$tmpAudio.attr( 'preload', 'auto' );
-					$tmpAudio.attr( 'src', songsrc );
-						
-					$tmpAudio.on( 'loadedmetadata', function( event ) {
-						
+
+				function (dfd) {
+
+					var $tmpAudio = $('<audio/>'),
+						songsrc = _self.getSource(aux.getSupportedType());
+
+					$tmpAudio.attr('preload', 'auto');
+					$tmpAudio.attr('src', songsrc);
+
+					$tmpAudio.on('loadedmetadata', function (event) {
+
 						_self.duration = $tmpAudio.get(0).duration;
-						dfd.resolve( _self );
+						dfd.resolve(_self);
 					});
 				}
 			).promise();
 		},
-		getDuration : function() {
+		getDuration: function () {
 			return this.duration;
 		}
 	};
-	
+
 	// Sound obj
-	$.Sound = function() {
+	$.Sound = function () {
 		this._init();
 	};
-	
+
 	$.Sound.prototype = {
 
-		_init : function() {
-			this.$audio	= $( '<audio/>' ).attr( 'preload', 'auto' );
+		_init: function () {
+			this.$audio = $('<audio/>').attr('preload', 'auto');
 		},
 
-		getSource : function( type ) {
+		getSource: function (type) {
 			return 'sounds/' + this.action + '.' + type;
 		},
 
-		play : function( action, loop ) {
-			
+		play: function (action, loop) {
+
 			var _self = this;
-			return $.Deferred( function( dfd ) {
+			return $.Deferred(function (dfd) {
 
 				_self.action = action;
 
-				var soundsrc = _self.getSource( aux.getSupportedType() );
-				
-				_self.$audio.attr( 'src', soundsrc );
+				var soundsrc = _self.getSource(aux.getSupportedType());
 
-				if( loop ) {
-					_self.$audio.attr( 'loop', loop );
+				_self.$audio.attr('src', soundsrc);
+
+				if (loop) {
+					_self.$audio.attr('loop', loop);
 				}
 				else {
-					_self.$audio.removeAttr( 'loop' );
+					_self.$audio.removeAttr('loop');
 				}
-					
-				_self.$audio.on( 'canplay', function( event ) {
-					
+
+				_self.$audio.on('canplay', function (event) {
+
 					// TODO: change timeout to ended event . ended event does not trigger for safari ?
-					setTimeout( function() {
+					setTimeout(function () {
 						dfd.resolve();
-					}, 500 );
-					$( this ).get(0).play();
+					}, 500);
+					$(this).get(0).play();
 				});
 			});
 		}
 	};
-	
-	var logError = function( message ) {
 
-		if ( window.console ) {
-			window.console.error( message );
+	var logError = function (message) {
+
+		if (window.console) {
+			window.console.error(message);
 		}
 	};
-	
-	$.fn.cassette = function( options ) {
-		
-		if ( typeof options === 'string' ) {
-			
-			var args = Array.prototype.slice.call( arguments, 1 );
-			
-			this.each(function() {
-			
-				var instance = $.data( this, 'cassette' );
-				
-				if ( !instance ) {
-					logError( "cannot call methods on cassette prior to initialization; " +
-					"attempted to call method '" + options + "'" );
-					return;
-				}
-				
-				if ( !$.isFunction( instance[options] ) || options.charAt(0) === "_" ) {
 
-					logError( "no such method '" + options + "' for cassette instance" );
+	$.fn.cassette = function (options) {
+
+		if (typeof options === 'string') {
+
+			var args = Array.prototype.slice.call(arguments, 1);
+
+			this.each(function () {
+
+				var instance = $.data(this, 'cassette');
+
+				if (!instance) {
+					logError("cannot call methods on cassette prior to initialization; " +
+						"attempted to call method '" + options + "'");
 					return;
 				}
-				instance[ options ].apply( instance, args );
+
+				if (!$.isFunction(instance[options]) || options.charAt(0) === "_") {
+
+					logError("no such method '" + options + "' for cassette instance");
+					return;
+				}
+				instance[options].apply(instance, args);
 			});
-		} 
+		}
 		else {
-			this.each(function() {
-			
-				var instance = $.data( this, 'cassette' );
-				if ( !instance ) {
-					$.data( this, 'cassette', new $.Cassette( options, this ) );
+			this.each(function () {
+
+				var instance = $.data(this, 'cassette');
+				if (!instance) {
+					$.data(this, 'cassette', new $.Cassette(options, this));
 				}
 			});
 		}
 		return this;
 	};
-	
-} )( window, jQuery );
+
+})(window, jQuery);
