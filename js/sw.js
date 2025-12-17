@@ -29,7 +29,7 @@ const FILES_TO_CACHE = [
 
 	'../songs/iMpumelelo - Sam Deep, Eemoh, Da Muziqal Chef.mp3',
 	'../songs/Paris.mp3',
-	'../songs/Ghetto Scandalous - Zola & Kabelo.mp3',
+	'../songs/Partii - Kamo Mphela ft  Aymos, Que Dj & Jay Music.mp3',
 	'../songs/Champion Sound.mp3',
 
 	// 🔊 ADD Sound effects

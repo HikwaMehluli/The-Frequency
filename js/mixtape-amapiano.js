@@ -33,20 +33,20 @@
 	$.Cassette.defaults = {
 		// Dynamically Load Genre and Titles
 		genreTitle: 'AmaPiano Playlist',
-		sideATitle: 'Yanos Fulltime',
-		sideBTitle: 'Yanos + Bonus Pantsula',
+		sideATitle: 'Yanos Part I',
+		sideBTitle: 'Yanos Part II',
 
 		// SONG NAMES. Assumes the path to each song is "/songs/name.filetype"
 		songs: [
-			'Trust The Process - Tebza De DJ ft Tanaka',
-			'Uthando ft Nokwazi, Lowsheen, Caltonic SA',
-			'Bula - Ntate Stunna ft Nthabi Sings',
-			'Ngiyamthanda - Intaba Yase Dubai',
-
-			'Champion Sound',
+			'Partii - Kamo Mphela ft  Aymos, Que Dj & Jay Music',
 			'iMpumelelo - Sam Deep, Eemoh, Da Muziqal Chef',
+			'Bula - Ntate Stunna ft Nthabi Sings',
+			'Champion Sound',
+
+			'Uthando ft Nokwazi, Lowsheen, Caltonic SA',
 			'Paris',
-			'Ghetto Scandalous - Zola & Kabelo',			
+			'Trust The Process - Tebza De DJ ft Tanaka',
+			'Ngiyamthanda - Intaba Yase Dubai',
 		],
 		fallbackMessage: 'HTML5 audio not supported',
 
