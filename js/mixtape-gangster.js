@@ -31,15 +31,20 @@
 	};
 
 	$.Cassette.defaults = {
-		// SONG NAMES. Assumes the path to each song is songs/name.filetype
+		// Dynamically Load Genre and Titles
+		genreTitle: 'Gangstar Music',
+		sideATitle: 'West Coast Beats',
+		sideBTitle: 'New York Shit',
+
+		// SONG NAMES. Assumes the path to each song is "/songs/name.filetype"
 		songs: [
 			'Chin Check - N.W.A',
 			'Bitches Ain t Shit - Dr.Dre',			
 			'2 of Amerikaz most wanted',
 			'Vato - Snoop Dogg ft B-Real',
 
-			'Bad Boyz - Shyne',
 			'Warning - Notorious B.I.G',
+			'Bad Boyz - Shyne',
 			'We Right Here - DMX',
 			'Ante Up (Remix) - M.O.P ft Busta Rhymes, Tephlon, Remy Martin',
 		],
@@ -83,6 +88,7 @@
 
 				// populate playlist in DOM
 				_self._populatePlaylistHTML();
+				_self._updateTitlesHTML();
 			});
 		},
 
@@ -153,6 +159,14 @@
 					$sideBList.append($li);
 				}
 			}
+		},
+
+		_updateTitlesHTML: function () {
+			$('#music-genre-title').text(this.options.genreTitle);
+			$('#side-a-title').text(this.options.sideATitle);
+			$('#side-b-title').text(this.options.sideBTitle);
+			this.$tapeSideA.find('.tape-name').text(this.options.sideATitle);
+			this.$tapeSideB.find('.tape-name').text(this.options.sideBTitle);
 		},
 
 		_createPlayer: function () {

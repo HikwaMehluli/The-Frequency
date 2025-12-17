@@ -31,17 +31,22 @@
 	};
 
 	$.Cassette.defaults = {
-		// SONG NAMES. Assumes the path to each song is songs/name.filetype
+		// Dynamically Load Genre and Titles
+		genreTitle: 'AmaPiano Playlist',
+		sideATitle: 'Yanos Fulltime',
+		sideBTitle: 'Yanos + Bonus Pantsula',
+
+		// SONG NAMES. Assumes the path to each song is "/songs/name.filetype"
 		songs: [
-			'Uthando ft Nokwazi, Lowsheen, Caltonic SA',
 			'Trust The Process - Tebza De DJ ft Tanaka',
+			'Uthando ft Nokwazi, Lowsheen, Caltonic SA',
 			'Bula - Ntate Stunna ft Nthabi Sings',
 			'Ngiyamthanda - Intaba Yase Dubai',
 
+			'Champion Sound',
 			'iMpumelelo - Sam Deep, Eemoh, Da Muziqal Chef',
 			'Paris',
-			'Ghetto Scandalous - Zola & Kabelo',
-			'Champion Sound',
+			'Ghetto Scandalous - Zola & Kabelo',			
 		],
 		fallbackMessage: 'HTML5 audio not supported',
 
@@ -83,6 +88,7 @@
 
 				// populate playlist in DOM
 				_self._populatePlaylistHTML();
+				_self._updateTitlesHTML();
 			});
 		},
 
@@ -153,6 +159,14 @@
 					$sideBList.append($li);
 				}
 			}
+		},
+
+		_updateTitlesHTML: function () {
+			$('#music-genre-title').text(this.options.genreTitle);
+			$('#side-a-title').text(this.options.sideATitle);
+			$('#side-b-title').text(this.options.sideBTitle);
+			this.$tapeSideA.find('.tape-name').text(this.options.sideATitle);
+			this.$tapeSideB.find('.tape-name').text(this.options.sideBTitle);
 		},
 
 		_createPlayer: function () {

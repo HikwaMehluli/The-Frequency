@@ -31,17 +31,22 @@
 	};
 
 	$.Cassette.defaults = {
-		// SONG NAMES. Assumes the path to each song is songs/name.filetype
+		// Dynamically Load Genre and Titles
+		genreTitle: 'Love Music',
+		sideATitle: 'Side A',
+		sideBTitle: 'Side B',
+		
+		// SONG NAMES. Assumes the path to each song is "/songs/name.filetype"
 		songs: [
+			'Candy Rain - Soul For Real',
+			'All My Life - K-Ci & Jojo',
+			'Put That Woman First - Jaheim',
+			'Rendezvous - Craig David',
+
+			'Whats love - FatJoe ft Ja-Rule & Ashanti',
 			'U Know Whats Up - Donell Jones',
 			'All I Have - Jennifer Lopez ft LL Cool J',
 			'Delema - Nelly ft Kelly Rowland',
-			'Whats love - FatJoe ft Ja-Rule & Ashanti',
-
-			'All My Life - K-Ci & Jojo',
-			'Candy Rain - Soul For Real',
-			'Put That Woman First - Jaheim',
-			'Rendezvous - Craig David',
 		],
 		fallbackMessage: 'HTML5 audio not supported',
 
@@ -83,6 +88,7 @@
 
 				// populate playlist in DOM
 				_self._populatePlaylistHTML();
+				_self._updateTitlesHTML();
 			});
 		},
 
@@ -153,6 +159,14 @@
 					$sideBList.append($li);
 				}
 			}
+		},
+
+		_updateTitlesHTML: function () {
+			$('#music-genre-title').text(this.options.genreTitle);
+			$('#side-a-title').text(this.options.sideATitle);
+			$('#side-b-title').text(this.options.sideBTitle);
+			this.$tapeSideA.find('.tape-name').text(this.options.sideATitle);
+			this.$tapeSideB.find('.tape-name').text(this.options.sideBTitle);
 		},
 
 		_createPlayer: function () {
