@@ -45,7 +45,7 @@ body.hiphop-theme {
     // Single Control Button/Icon
     ul.controls-container li {
         background: var(--hiphop-color);
-        border: 2px solid var(--hiphop-color);
+        border: 2px solid var(--white-color);
 
         // Icon Color
         span:before {
@@ -55,7 +55,7 @@ body.hiphop-theme {
         &:hover,
         &.active-btn {
             background: var(--black-color);
-            border: 2px solid var(--black-color);
+            border: 2px solid var(--white-color);
 
             span:before {
                 color: var(--white-color);
