@@ -33,8 +33,8 @@
 	$.Cassette.defaults = {
 		// SONG NAMES. Assumes the path to each song is songs/name.filetype
 		songs: [
-			'Bitches Ain t Shit - Dr.Dre',
 			'Chin Check - N.W.A',
+			'Bitches Ain t Shit - Dr.Dre',			
 			'2 of Amerikaz most wanted',
 			'Vato - Snoop Dogg ft B-Real',
 
