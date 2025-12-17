@@ -6,7 +6,8 @@
 		"css-prod": "sass --no-source-map --watch scss/_entry.scss:css/app.css --style compressed",
 		"css-dev": "sass --no-source-map --watch scss/_entry.scss:css/app.css",
 		"js-prod": "webpack --mode production --watch",
-		"js-dev": "webpack --mode development --watch"
+		"js-dev": "webpack --mode development --watch",
+		"http-server": "http-server -c-1"
 	},
 	"author": "Mehluli Hikwa",
 	"devDependencies": {
