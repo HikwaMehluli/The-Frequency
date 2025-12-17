@@ -32,9 +32,9 @@
 
 	$.Cassette.defaults = {
 		// Dynamically Load Genre and Titles
-		genreTitle: 'Love Music',
-		sideATitle: 'Side A',
-		sideBTitle: 'Side B',
+		genreTitle: 'Love Songs',
+		sideATitle: 'Slow Motion',
+		sideBTitle: 'Hyper Love',
 		
 		// SONG NAMES. Assumes the path to each song is "/songs/name.filetype"
 		songs: [
