@@ -60,7 +60,7 @@
 	--white-color: #f4f4f4;
 	--pink-color: #e83861;
 	--hiphop-color: #a82424;
-	--amapiano-color: #296ebd;
+	--amapiano-color: #1aa43a;
 	--transition: all .5s;
 }
 
@@ -165,10 +165,10 @@ footer {
 
 	// themes.scss
 	a {
-		// color: var(--white-color);
+		color: var(--white-color);
 
 		&:hover {
-			// color: red;
+			color: var(--white-color);
 			padding-left: 10px;
 		}
 	}
