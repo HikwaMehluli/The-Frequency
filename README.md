@@ -1,7 +1,7 @@
-# [Mixtape by thatAfro](https://thatafro.netlify.app/)
-Interactive old school mixtape website
+# [The Frequency by thatAfro](https://thatafro.netlify.app/)
+Musical album called "The Frequency by thatAfro" visualized using an interactive old school mixtape cassette tape
 
-Link to Live Website -  
+Link to Live Demo -  
 
 ## Development Dependencies
 ###### Install JQuery, SASS, Webpack & Webpack CLI
