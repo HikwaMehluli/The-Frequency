@@ -1,29 +1,29 @@
-// Get DOM elements
-const sidebarMenu = document.getElementById('sidebarMenu');
-const sidebarOpen = document.getElementById('sidebarOpen');
-const sidebarClose = document.getElementById('sidebarClose');
-const sidebarOverlay = document.getElementById('sidebarOverlay');
+// Opens and closes the sidebar menu.
 
-// Function to show sidebar
-function showSidebar() {
-    sidebarMenu.classList.add('active');
-    sidebarOverlay.classList.add('active');
+export function initSidebar() {
+	const menu = document.getElementById('sidebarMenu');
+	const openBtn = document.getElementById('sidebarOpen');
+	const closeBtn = document.getElementById('sidebarClose');
+	const overlay = document.getElementById('sidebarOverlay');
+
+	const show = () => {
+		menu.classList.add('active');
+		overlay.classList.add('active');
+	};
+
+	const hide = () => {
+		menu.classList.remove('active');
+		overlay.classList.remove('active');
+	};
+
+	openBtn.addEventListener('click', show);
+	closeBtn.addEventListener('click', hide);
+	overlay.addEventListener('click', hide);
+
+	// Close the sidebar when pressing Escape.
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape') {
+			hide();
+		}
+	});
 }
-
-// Function to hide sidebar
-function hideSidebar() {
-    sidebarMenu.classList.remove('active');
-    sidebarOverlay.classList.remove('active');
-}
-
-// Event listeners
-sidebarOpen.addEventListener('click', showSidebar);
-sidebarClose.addEventListener('click', hideSidebar);
-sidebarOverlay.addEventListener('click', hideSidebar);
-
-// Close sidebar when pressing Escape key
-document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') {
-        hideSidebar();
-    }
-});

@@ -11,10 +11,6 @@
 
 	.switch-tape {
 		/* Helps give 3D illusion on tape spin */
-		-webkit-perspective: 800px;
-		-moz-perspective: 800px;
-		-o-perspective: 800px;
-		-ms-perspective: 800px;
 		perspective: 800px;
 
 		// Make container responsive
@@ -27,10 +23,6 @@
 			aspect-ratio: 586 / 379;
 			margin: 0 auto;
 			position: relative;
-			-webkit-transition: all .5s ease-out;
-			-moz-transition: all .5s ease-out;
-			-o-transition: all .5s ease-out;
-			-ms-transition: all .5s ease-out;
 			transition: all .5s ease-out;
 		}
 	}
@@ -47,7 +39,7 @@
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	background: transparent url(../img/fr.png) no-repeat center center;
+	background: transparent url('/img/fr.png') no-repeat center center;
 	background-size: contain;
 	top: 0px;
 	left: 0px;
@@ -75,10 +67,6 @@
 	
 	&.side-b-of-tape {
 		display: none;
-		-webkit-transform: rotate3d(0, 1, 0, 180deg);
-		-moz-transform: rotate3d(0, 1, 0, 180deg);
-		-o-transform: rotate3d(0, 1, 0, 180deg);
-		-ms-transform: rotate3d(0, 1, 0, 180deg);
 		transform: rotate3d(0, 1, 0, 180deg);
 	}
 }

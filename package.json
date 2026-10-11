@@ -3,17 +3,13 @@
 	"version": "1.0.0",
 	"description": "Interactive old school mixtape website",
 	"scripts": {
-		"css-prod": "sass --no-source-map --watch scss/_entry.scss:css/app.css --style compressed",
-		"css-dev": "sass --no-source-map --watch scss/_entry.scss:css/app.css",
-		"js-prod": "webpack --mode production --watch",
-		"js-dev": "webpack --mode development --watch",
-		"http-server": "http-server -c-1"
+		"dev": "vite --host",
+		"build": "vite build",
+		"preview": "vite preview"
 	},
 	"author": "Mehluli Hikwa",
 	"devDependencies": {
-		"jquery": "^3.7.1",
 		"sass": "^1.96.0",
-		"webpack": "^5.103.0",
-		"webpack-cli": "^6.0.1"
+		"vite": "^7.1.5"
 	}
 }

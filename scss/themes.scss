@@ -1,5 +1,5 @@
 // 
-// Mixtape Themes - Apply class to body tag e.g <body class="love-theme">
+// Mixtape Themes - Apply a class to the body tag e.g. <body class="love-theme">
 // 
 // 1 - Hiphop Theme - .hiphop-theme
 // 2 - Love Theme - .love-theme
@@ -11,90 +11,90 @@
 // 1 - Hiphop Theme - .hiphop-theme
 //
 body.hiphop-theme {
-	background: #003603 url(../img/hiphop-theme.webp) no-repeat center;
+	background: #003603 url('/img/hiphop-theme.webp') no-repeat center;
 	background-size: cover;
 
-    .sidebar-menu-open {
-        background-color: var(--hiphop-color);
-        border: 2px solid var(--white-color);
-        color: var(--white-color);
+	.sidebar-menu-open {
+		background-color: var(--hiphop-color);
+		border: 2px solid var(--white-color);
+		color: var(--white-color);
 
-        &:hover {
-            background-color: var(--black-color);
-            border: 2px solid var(--white-color);
-            color: var(--white-color);
-        }
-    }
+		&:hover {
+			background-color: var(--black-color);
+			border: 2px solid var(--white-color);
+			color: var(--white-color);
+		}
+	}
 
-    .sidebar-menu-close {
-        background-color: var(--hiphop-color);
-        border: 2px solid var(--white-color);
-        color: var(--white-color);
+	.sidebar-menu-close {
+		background-color: var(--hiphop-color);
+		border: 2px solid var(--white-color);
+		color: var(--white-color);
 
-        &:hover {
-            background-color: transparent;
-            border: 2px solid var(--white-color);
-            color: var(--white-color);
-        }
-    }
+		&:hover {
+			background-color: transparent;
+			border: 2px solid var(--white-color);
+			color: var(--white-color);
+		}
+	}
 
-    a {
-        &.btn {
-            background-color: var(--hiphop-color);
-            border: 2px solid var(--hiphop-color);
-            color: var(--white-color);
+	a {
+		&.btn {
+			background-color: var(--hiphop-color);
+			border: 2px solid var(--hiphop-color);
+			color: var(--white-color);
 
-            &:hover {
-                background-color: transparent;
-                border: 2px solid var(--white-color);
-                color: var(--white-color);
-            }
-        }
-    }
-    
-    .sidebar-menu {
-        background-color: var(--black-color);
-        color: var(--white-color);
+			&:hover {
+				background-color: transparent;
+				border: 2px solid var(--white-color);
+				color: var(--white-color);
+			}
+		}
+	}
 
-        h3 {
-            color: var(--hiphop-color);
-        }
-    }
+	.sidebar-menu {
+		background-color: var(--black-color);
+		color: var(--white-color);
 
-    .pre-loader {
-        border: 10px solid var(--white-color);
-        border-top: 10px solid var(--black-color);
-    }
+		h3 {
+			color: var(--hiphop-color);
+		}
+	}
 
-    // Single Control Button/Icon
-    ul.controls-container li {
-        background: var(--hiphop-color);
-        border: 2px solid var(--white-color);
+	.pre-loader {
+		border: 10px solid var(--white-color);
+		border-top: 10px solid var(--black-color);
+	}
 
-        // Icon Color
-        span:before {
-            color: var(--white-color);
-        }
+	// Single Control Button/Icon
+	ul.controls-container li {
+		background: var(--hiphop-color);
+		border: 2px solid var(--white-color);
 
-        &:hover,
-        &.active-btn {
-            background: var(--black-color);
-            border: 2px solid var(--white-color);
+		// Icon Color
+		span:before {
+			color: var(--white-color);
+		}
 
-            span:before {
-                color: var(--white-color);
-            }
-        }
-    }
-    
-    // Footer
-    footer a {
-        color: var(--white-color);
+		&:hover,
+		&.active-btn {
+			background: var(--black-color);
+			border: 2px solid var(--white-color);
 
-        &:hover {
-            color: var(--hiphop-color);
-        }
-    }
+			span:before {
+				color: var(--white-color);
+			}
+		}
+	}
+
+	// Footer
+	footer a {
+		color: var(--white-color);
+
+		&:hover {
+			color: var(--hiphop-color);
+		}
+	}
 }
 
 
@@ -104,116 +104,98 @@ body.hiphop-theme {
 //
 body.love-theme {
 	background: var(--pink-color);
-    -webkit-animation: loveTheme 10s linear infinite;
-    -moz-animation: loveTheme 10s linear infinite;
-    animation: loveTheme 10s linear infinite;
+	animation: loveTheme 10s linear infinite;
 
-    .sidebar-menu-open {
-        background-color: var(--white-color);
-        border: 2px solid var(--black-color);
-        color: var(--black-color);
+	.sidebar-menu-open {
+		background-color: var(--white-color);
+		border: 2px solid var(--black-color);
+		color: var(--black-color);
 
-        &:hover {
-            background-color: transparent;
-            border: 2px solid var(--white-color);
-            color: var(--white-color);
-        }
-    }
+		&:hover {
+			background-color: transparent;
+			border: 2px solid var(--white-color);
+			color: var(--white-color);
+		}
+	}
 
-    .sidebar-menu-close {
-        background-color: var(--pink-color);
-        border: 2px solid var(--white-color);
-        color: var(--white-color);
+	.sidebar-menu-close {
+		background-color: var(--pink-color);
+		border: 2px solid var(--white-color);
+		color: var(--white-color);
 
-        &:hover {
-            background-color: transparent;
-            border: 2px solid var(--white-color);
-            color: var(--white-color);
-        }
-    }
+		&:hover {
+			background-color: transparent;
+			border: 2px solid var(--white-color);
+			color: var(--white-color);
+		}
+	}
 
-    a {
-        &.btn {
-            background-color: var(--pink-color);
-            border: 2px solid var(--pink-color);
-            color: var(--white-color);
-            
-            &:hover {
-                background-color: transparent;
-                border: 2px solid var(--white-color);
-                color: var(--white-color);
-            }
-        }
-    }
-    
-    .sidebar-menu {
-        background-color: var(--black-color);
-        color: var(--white-color);
+	a {
+		&.btn {
+			background-color: var(--pink-color);
+			border: 2px solid var(--pink-color);
+			color: var(--white-color);
 
-        h3 {
-            color: var(--pink-color);
-        }
-    }
-    
-    .pre-loader {
-        border: 10px solid var(--white-color);
-        border-top: 10px solid var(--black-color);
-    }
+			&:hover {
+				background-color: transparent;
+				border: 2px solid var(--white-color);
+				color: var(--white-color);
+			}
+		}
+	}
 
-    // Single Control Button/Icon
-    ul.controls-container li {
-        background-color: var(--white-color);
-        border: 2px solid var(--black-color);
+	.sidebar-menu {
+		background-color: var(--black-color);
+		color: var(--white-color);
 
-        // Icon Color
-        span:before {
-            color: var(--black-color);
-        }
+		h3 {
+			color: var(--pink-color);
+		}
+	}
 
-        &:hover,
-        &.active-btn {
-            background: transparent;
-            border: 2px solid  var(--white-color);
+	.pre-loader {
+		border: 10px solid var(--white-color);
+		border-top: 10px solid var(--black-color);
+	}
 
-            span:before {
-                color: var(--white-color);
-            }
-        }
-    }
-    
-    // Footer
-    footer a {
-        color: var(--white-color);
+	// Single Control Button/Icon
+	ul.controls-container li {
+		background-color: var(--white-color);
+		border: 2px solid var(--black-color);
 
-        &:hover {
-            color: var(--black-color);
-        }
-    }
+		// Icon Color
+		span:before {
+			color: var(--black-color);
+		}
+
+		&:hover,
+		&.active-btn {
+			background: transparent;
+			border: 2px solid var(--white-color);
+
+			span:before {
+				color: var(--white-color);
+			}
+		}
+	}
+
+	// Footer
+	footer a {
+		color: var(--white-color);
+
+		&:hover {
+			color: var(--black-color);
+		}
+	}
 }
 
 // Love Theme Background Animation
-@-webkit-keyframes loveTheme {
-    0% { background: #e83861;;}
-    25% { background: #ba2145;}
-    50% { background: #aa0f71;}
-    75% { background: #b30d97;}
-    100% { background: #e83861;}
-}
-
-@-moz-keyframes loveTheme {
-    0% { background: #e83861;;}
-    25% { background: #ba2145;}
-    50% { background: #aa0f71;}
-    75% { background: #b30d97;}
-    100% { background: #e83861;}
-}
-
 @keyframes loveTheme {
-    0% { background: #e83861;;}
-    25% { background: #ba2145;}
-    50% { background: #aa0f71;}
-    75% { background: #b30d97;}
-    100% { background: #e83861;}
+	0% { background: #e83861; }
+	25% { background: #ba2145; }
+	50% { background: #aa0f71; }
+	75% { background: #b30d97; }
+	100% { background: #e83861; }
 }
 
 
@@ -222,77 +204,77 @@ body.love-theme {
 // 3 - Amapiano Theme - .amapiano-theme
 //
 body.amapiano-theme {
-    background: var(--amapiano-color) url(../img/amapiano-theme.webp) no-repeat center;
-    background-size: cover;
+	background: var(--amapiano-color) url('/img/amapiano-theme.webp') no-repeat center;
+	background-size: cover;
 
-    .sidebar-menu-open,
-    .sidebar-menu-close {
-        background-color: var(--amapiano-color);
-        border: 2px solid var(--amapiano-color);
-        color: var(--black-color);
+	.sidebar-menu-open,
+	.sidebar-menu-close {
+		background-color: var(--amapiano-color);
+		border: 2px solid var(--amapiano-color);
+		color: var(--black-color);
 
-        &:hover {
-            background-color: var(--black-color);
-            border: 2px solid var(--white-color);
-            color: var(--white-color);
-        }
-    }
+		&:hover {
+			background-color: var(--black-color);
+			border: 2px solid var(--white-color);
+			color: var(--white-color);
+		}
+	}
 
-    a {
-        &.btn {
-            background-color: var(--amapiano-color);
-            border: 2px solid var(--amapiano-color);
-            color: var(--black-color);
+	a {
+		&.btn {
+			background-color: var(--amapiano-color);
+			border: 2px solid var(--amapiano-color);
+			color: var(--black-color);
 
-            &:hover {
-                background-color: var(--black-color);
-                border: 2px solid var(--white-color);
-                color: var(--white-color);
-            }
-        }
-    }
+			&:hover {
+				background-color: var(--black-color);
+				border: 2px solid var(--white-color);
+				color: var(--white-color);
+			}
+		}
+	}
 
-    .sidebar-menu {
-        background-color: var(--black-color);
-        color: var(--white-color);
+	.sidebar-menu {
+		background-color: var(--black-color);
+		color: var(--white-color);
 
-        h3 {
-            color: var(--amapiano-color);
-        }
-    }
+		h3 {
+			color: var(--amapiano-color);
+		}
+	}
 
-    .pre-loader {
-        border: 10px solid var(--white-color);
-        border-top: 10px solid var(--black-color);
-    }
+	.pre-loader {
+		border: 10px solid var(--white-color);
+		border-top: 10px solid var(--black-color);
+	}
 
-    // Single Control Button/Icon
-    ul.controls-container li {
-        background: var(--amapiano-color);
-        border: 2px solid var(--amapiano-color);
+	// Single Control Button/Icon
+	ul.controls-container li {
+		background: var(--amapiano-color);
+		border: 2px solid var(--amapiano-color);
 
-        // Icon Color
-        span:before {
-            color: var(--black-color);
-        }
+		// Icon Color
+		span:before {
+			color: var(--black-color);
+		}
 
-        &:hover,
-        &.active-btn {
-            background: var(--black-color);
-            border: 2px solid var(--white-color);
+		&:hover,
+		&.active-btn {
+			background: var(--black-color);
+			border: 2px solid var(--white-color);
 
-            span:before {
-                color: var(--white-color);
-            }
-        }
-    }
+			span:before {
+				color: var(--white-color);
+			}
+		}
+	}
 
-    // Footer
-    footer a {
-        color: var(--white-color);
+	// Footer
+	footer a {
+		color: var(--white-color);
 
-        &:hover {
-            color: var(--amapiano-color);
-        }
-    }
+		&:hover {
+			color: var(--amapiano-color);
+		}
+	}
 }
