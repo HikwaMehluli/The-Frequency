@@ -7,7 +7,11 @@ ul.controls-container {
     width: 100%;
     margin: 20px 0 50px 0;
     padding: 0;
-    text-align: center;
+    // Keep all five buttons on one row, even on small screens.
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: clamp(4px, 1.5vw, 10px);
 
     // Display Icons
     li.forward-btn span:before {
@@ -35,9 +39,10 @@ ul.controls-container {
 // Single Control Button/Icon - themes.scss
 ul.controls-container li {
     border-radius: 15px;
-    display: inline;
-    padding: clamp(8px, 2.5vw, 15px) clamp(20px, 6vw, 35px);
-    margin: 0 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(8px, 2vw, 15px) clamp(12px, 4vw, 35px);
     font-size: clamp(14px, 3vw, 18px);
     text-transform: uppercase;
     transition: var(--transition);

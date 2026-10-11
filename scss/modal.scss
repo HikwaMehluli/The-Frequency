@@ -1,0 +1,39 @@
+//
+// Pop-up notice - a small themed card in the middle of the screen.
+// Shown by showNotice() in js/mixtape.js.
+//
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 2000;
+	opacity: 0;
+	visibility: hidden;
+	transition: var(--transition);
+
+	&.active {
+		opacity: 1;
+		visibility: visible;
+
+		.modal-card {
+			transform: translateY(0);
+		}
+	}
+}
+
+.modal-card {
+	background-color: var(--black-color);
+	color: var(--white-color);
+	border: 2px solid var(--pink-color);
+	border-radius: 10px;
+	padding: 24px 28px;
+	max-width: 320px;
+	text-align: center;
+	font-size: 1rem;
+	cursor: pointer;
+	transform: translateY(10px);
+	transition: var(--transition);
+}

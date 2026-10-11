@@ -51,6 +51,22 @@ npm run preview      # serve the built version to check it
   - `public/music/` — **the album audio, where your songs live**
 - `dist/` — the finished build, made by `npm run build`. Do not edit by hand.
 
+## Change the album
+
+Everything about the track list lives at the top of `js/mixtape.js`, in the
+`DEFAULTS` object:
+
+- `songs` — the album, in order. **This one list drives both the tape sides and
+  the ☰ sidebar menu**, so you only edit it in one place.
+- `sideATitle` and `sideBTitle` — rename the two sides.
+
+The songs are split evenly across Side A and Side B, and **Side A gets the extra
+track** when the album has an odd number of songs. Just reorder, add or remove
+names and both the tape and the menu update by themselves.
+
+Each name must match an audio file in `public/music/` (without the extension):
+`'Ama Feelings'` plays `public/music/Ama Feelings.mp3`.
+
 ## Build on it
 
 Feel free to play, take it apart and make it your own. Keep it simple and tidy, and

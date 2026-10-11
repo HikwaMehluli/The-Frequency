@@ -8,6 +8,7 @@
 	align-items: center;
 	height: 100vh;
 	padding: 20px;
+	position: relative;
 
 	.switch-tape {
 		/* Helps give 3D illusion on tape spin */
@@ -24,6 +25,51 @@
 			margin: 0 auto;
 			position: relative;
 			transition: all .5s ease-out;
+		}
+	}
+
+	// While the album loads, show only the loader.
+	&.loading {
+		.switch-tape,
+		.controls-container {
+			display: none;
+		}
+	}
+
+	// When loading is done, slide the tape + controls in.
+	&.ready {
+		.switch-tape,
+		.controls-container {
+			animation: tape-in .6s ease both;
+		}
+	}
+}
+
+// Tape and controls drop in from the top of the screen.
+@keyframes tape-in {
+	from {
+		opacity: 0;
+		transform: translateY(-100vh);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+// On phones (600px and below) they just fade in.
+@keyframes tape-fade-in {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@media (max-width: 600px) {
+	#mix-tape.ready {
+
+		.switch-tape,
+		.controls-container {
+			animation-name: tape-fade-in;
 		}
 	}
 }

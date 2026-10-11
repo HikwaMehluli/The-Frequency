@@ -9,13 +9,13 @@ const SOUNDS_PATH = '/sounds/';
 // and the tape sides + sidebar menu update automatically.
 const DEFAULTS = {
 	genreTitle: 'The Frequency',
-	sideATitle: 'Side A',
-	sideBTitle: 'Side B',
+	sideATitle: 'The Frequency - Side A',
+	sideBTitle: 'The Frequency - Side B',
 	songs: [
-		'Ama Feelings Instrumental',
 		'Ama Feelings',
-		'Bass Culture (Amapiano Mix)',
 		'Bass Culture Instrumental',
+		'Bass Culture (Amapiano Mix)',
+		'Ama Feelings Instrumental',
 		'The Frequency Instrumental',
 	],
 	fallbackMessage: 'HTML5 audio not supported',
@@ -30,6 +30,33 @@ function getSupportedType() {
 	if (audio.canPlayType('audio/mpeg')) return 'mp3';
 	if (audio.canPlayType('audio/ogg')) return 'ogg';
 	return 'mp3';
+}
+
+// Show a small themed pop-up in the middle of the screen. It fades in,
+// disappears on its own after a few seconds, and can also be tapped to close.
+let noticeModal;
+let noticeTimer;
+
+function showNotice(message) {
+	if (!noticeModal) {
+		noticeModal = document.createElement('div');
+		noticeModal.className = 'modal-overlay';
+		noticeModal.innerHTML = '<div class="modal-card"></div>';
+		noticeModal.addEventListener('click', hideNotice);
+		document.body.appendChild(noticeModal);
+	}
+
+	noticeModal.querySelector('.modal-card').textContent = message;
+	noticeModal.classList.add('active');
+
+	clearTimeout(noticeTimer);
+	noticeTimer = setTimeout(hideNotice, 3000);
+}
+
+function hideNotice() {
+	if (!noticeModal) return;
+	clearTimeout(noticeTimer);
+	noticeModal.classList.remove('active');
 }
 
 // Play a short effect from the /sounds folder. Returns the audio element so
@@ -97,12 +124,16 @@ export class Cassette {
 
 		// Read every song's duration (shows a loading percentage on the way).
 		await this.createSides();
-		this.loader.style.display = 'none';
 
+		// Loading is done: fade the loader out, build the player, then
+		// let the tape and controls slide in.
+		this.loader.classList.add('hidden');
 		this.createPlayer();
 		this.loadEvents();
 		this.populatePlaylist();
 		this.updateTitles();
+		this.el.classList.remove('loading');
+		this.el.classList.add('ready');
 	}
 
 	// Split the album into two sides. Side A gets the extra track when the
@@ -138,7 +169,7 @@ export class Cassette {
 	createPlayer() {
 		// The HTML5 audio element that actually plays the songs.
 		this.audio = document.createElement('audio');
-		this.audio.preload = 'none';
+		this.audio.preload = 'auto';
 		this.audio.innerHTML = `<span>${this.options.fallbackMessage}</span>`;
 		this.audio.volume = this.options.initialVolume;
 		this.el.prepend(this.audio);
@@ -206,9 +237,15 @@ export class Cassette {
 			this.audio.play();
 			this.isMoving = true;
 			this.setWheelAnimation('2s', 'play');
+			this.setPlaying(true);
 		};
-		this.audio.addEventListener('canplay', startPlayback, { once: true });
-		if (this.audio.readyState >= 3) startPlayback();
+
+		// If the song is already loaded, start now; otherwise wait for `canplay`.
+		if (this.audio.readyState >= 3) {
+			startPlayback();
+		} else {
+			this.audio.addEventListener('canplay', startPlayback, { once: true });
+		}
 	}
 
 	prepareSong(info) {
@@ -222,10 +259,14 @@ export class Cassette {
 			playSound('click');
 		}
 		this.isMoving = false;
+		if (this.moveSound) {
+			this.moveSound.pause();
+			this.moveSound = undefined;
+		}
 		this.stopWheels();
 		this.audio.pause();
 		this.stopTimer();
-		this.moveSound = undefined;
+		this.setPlaying(false);
 	}
 
 	// Work out exactly which song should be playing, from any point in time.
@@ -301,7 +342,7 @@ export class Cassette {
 	// Flip the tape over, keeping the same point in the album.
 	switchSides() {
 		if (this.isMoving) {
-			alert('Please stop the music before you switch sides.');
+			showNotice('Please stop the music before you switch sides.');
 			return;
 		}
 
@@ -326,6 +367,11 @@ export class Cassette {
 		);
 		const pressed = { play: this.playBtn, rewind: this.rewindBtn, forward: this.forwardBtn };
 		if (pressed[name]) pressed[name].classList.add('active-btn');
+	}
+
+	// Tell the page a song is playing, so themes can animate only while playing.
+	setPlaying(playing) {
+		document.body.classList.toggle('is-playing', playing);
 	}
 
 	setSidesStatus(status) {
@@ -404,7 +450,7 @@ export class Cassette {
 		// Reached the start or end of the side - stop moving.
 		const duration = this.activeSide().duration;
 		if (pos >= duration || pos <= 0) {
-			this.stop(true);
+			this.stop();
 			this.sideTime = pos <= 0 ? 0 : pos;
 			this.elapsed = 0;
 			this.setSidesStatus(pos <= 0 ? 'start' : 'end');

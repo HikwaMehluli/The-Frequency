@@ -104,7 +104,14 @@ body.hiphop-theme {
 //
 body.love-theme {
 	background: var(--pink-color);
+	// The gradient only moves while a song plays. Pausing the animation
+	// freezes it, so the background stays solid in its current colour.
 	animation: loveTheme 10s linear infinite;
+	animation-play-state: paused;
+
+	&.is-playing {
+		animation-play-state: running;
+	}
 
 	.sidebar-menu-open {
 		background-color: var(--white-color);
