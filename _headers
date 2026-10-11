@@ -1,0 +1,13 @@
+# Caching rules for the album audio (Netlify / Cloudflare Pages).
+# Keep the big music + sound files in the browser for a year so returning
+# visitors don't re-download them. Audio URLs end with ?v=<MUSIC_VERSION>
+# (see src/js/mixtape.js), so bump that number when the files change and the
+# browser fetches the new copy at a fresh URL.
+# Note: GitHub Pages ignores this file, so there the audio keeps its default
+# 10-minute cache.
+
+/public/music/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/public/sounds/*
+  Cache-Control: public, max-age=31536000, immutable

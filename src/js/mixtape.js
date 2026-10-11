@@ -7,6 +7,11 @@ import { populateContact } from './contact.js';
 const SONGS_PATH = './public/music/';
 const SOUNDS_PATH = './public/sounds/';
 
+// Bump this number whenever you change the songs or sounds. The audio URLs
+// carry it as ?v=, so returning visitors get the new files instead of a
+// long-cached old copy (see the _headers file for the caching rules).
+const MUSIC_VERSION = 1;
+
 // A few tunable numbers, named so the code reads clearly.
 const WHEEL_MAX = 70; // biggest wheel shadow size, in px
 const SEEK_TICK_MS = 100; // how often the tape position updates while seeking
@@ -81,7 +86,7 @@ function hideNotice() {
 // Play a short effect from the /sounds folder. Returns the audio element so
 // callers can keep looping sounds and stop them later.
 function playSound(name, loop = false) {
-	const audio = new Audio(`${SOUNDS_PATH}${name}.${AUDIO_TYPE}`);
+	const audio = new Audio(`${SOUNDS_PATH}${name}.${AUDIO_TYPE}?v=${MUSIC_VERSION}`);
 	audio.loop = loop;
 	audio.play().catch(() => {});
 	return audio;
@@ -91,7 +96,7 @@ function playSound(name, loop = false) {
 class Song {
 	constructor(name) {
 		this.name = name;
-		this.src = `${SONGS_PATH}${name}.${AUDIO_TYPE}`;
+		this.src = `${SONGS_PATH}${name}.${AUDIO_TYPE}?v=${MUSIC_VERSION}`;
 		this.duration = 0;
 	}
 

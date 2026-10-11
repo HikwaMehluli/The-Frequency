@@ -57,6 +57,8 @@ same Wi-Fi can play it by visiting the extra "Network" address it prints (for ex
   - `public/fonts/` — the icons used on the buttons
   - `public/sounds/` — the little click / rewind sounds
   - `public/music/` — **the album audio, where your songs live**
+  - `public/sw.js` — the service worker that caches music/sounds in the browser
+    (hand-written, served as-is, like the audio)
 
 The two generated files are the ones `index.html` links to. Change the source in
 `src/`, run `npm run build`, then commit — never edit the compiled files by hand.
@@ -76,6 +78,22 @@ names and both the tape and the menu update by themselves.
 
 Each name must match an audio file in `public/music/` (without the extension):
 `'Ama Feelings'` plays `public/music/Ama Feelings.mp3`.
+
+## Update the audio (important)
+
+The album audio is **cached in the browser** so return visitors don't download the
+multi-MB files again. Two things do that:
+
+- **The service worker** (`public/sw.js`) saves music and sounds as they are played
+  and reuses them next time. This works on any host, including **GitHub Pages**.
+- **The `_headers` file** additionally long-caches the audio for a year, but only
+  **Netlify / Cloudflare Pages** read it (on Netlify, set the publish directory to
+  the repository root `.` so `index.html` is served).
+
+When you replace or add songs or sounds, you must bump the `MUSIC_VERSION` number
+at the top of `src/js/mixtape.js`. It becomes the `?v=` on every audio URL, which
+tells browsers (and the service worker) "this is a new file, fetch it". Forgetting
+this means some visitors keep hearing the old song.
 
 ## Build on it
 
