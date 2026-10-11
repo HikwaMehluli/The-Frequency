@@ -103,7 +103,7 @@ body.hiphop-theme {
 // 2 - Love Theme - .love-theme
 //
 body.love-theme {
-	background: var(--pink-color);
+	background: #0a0a0a;
 	// The gradient only moves while a song plays. Pausing the animation
 	// freezes it, so the background stays solid in its current colour.
 	animation: loveTheme 10s linear infinite;
@@ -197,12 +197,28 @@ body.love-theme {
 }
 
 // Love Theme Background Animation
+// A soft, gradual ramp: dark grey eases up to pink, then back down.
+// More stops = smoother change (the middle steps are packed tightest).
 @keyframes loveTheme {
-	0% { background: #e83861; }
-	25% { background: #ba2145; }
-	50% { background: #aa0f71; }
-	75% { background: #b30d97; }
-	100% { background: #e83861; }
+	0% { background: #0a0a0a; }
+	10% { background: #1a1a1a; }
+	18% { background: #2a1417; }
+	26% { background: #3d1720; }
+	32% { background: #54192b; }
+	38% { background: #6e1d37; }
+	42% { background: #8a2343; }
+	45% { background: #a92a50; }
+	48% { background: #c9325b; }
+	50% { background: #e83861; }
+	52% { background: #c9325b; }
+	55% { background: #a92a50; }
+	58% { background: #8a2343; }
+	62% { background: #6e1d37; }
+	68% { background: #54192b; }
+	74% { background: #3d1720; }
+	82% { background: #2a1417; }
+	90% { background: #1a1a1a; }
+	100% { background: #0a0a0a; }
 }
 
 

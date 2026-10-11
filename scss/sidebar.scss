@@ -8,6 +8,9 @@
     top: 0;
     left: -420px;
     overflow-y: scroll;
+    // Stacks the sections in a column so the contact row can sit at the bottom.
+    display: flex;
+    flex-direction: column;
 
     /* Hidden by default */
     margin: 0 auto;
@@ -60,12 +63,12 @@
 // Playlist Styles
 .sidebar-menu {
     h2 {
-        margin: 5px 0 20px 0;
+        margin: 5px 0 10px 0;
         padding-bottom: 20px;
     }
 
     h3 {
-        margin: 20px 0 10px 0;
+        margin: 0;
     }
 
     ul {
@@ -77,6 +80,42 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             font-size: 14px;
             transition: var(--transition);
+        }
+    }
+}
+
+// Contact block pinned to the bottom of the menu.
+.sidebar-contact {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin-top: auto;
+    padding-top: 15px;
+    text-align: center;
+
+    // Always one line, even on small screens: nowrap + a font size that
+    // shrinks with the screen (clamp = min, fluid middle, max).
+    .sidebar-contact-text {
+        margin: 0 0 16px;
+        font-size: clamp(0.65rem, 3.2vw, 0.85rem);
+        white-space: nowrap;
+        color: var(--white-color);
+    }
+
+    .sidebar-contact-icons {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+
+        a {
+            color: var(--white-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+
+            &:hover {
+                color: var(--pink-color);
+                transform: translateY(-2px);
+            }
         }
     }
 }

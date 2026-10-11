@@ -72,6 +72,22 @@ Each name must match an audio file in `public/music/` (without the extension):
 Feel free to play, take it apart and make it your own. Keep it simple and tidy, and
 have fun — that is the whole point.
 
+## License
+
+This project is free to use, share and build on. It uses two licenses:
+
+- **The code** (HTML, SCSS and JavaScript) is under the **MIT License** — see
+  [`LICENSE`](LICENSE). Use it, change it, even sell it, as long as you keep the
+  copyright notice.
+- **The music** (the songs in `public/music/`) is under the **Creative Commons
+  Attribution 4.0 (CC BY 4.0)** license — see
+  [`LICENSE-MUSIC.md`](LICENSE-MUSIC.md). Share, remix or reuse the songs (even
+  commercially) as long as you **credit thatAfro**.
+
+Please credit the music like this:
+
+> Music by thatAfro — https://thatafro.netlify.app
+
 ---
 
 Made with love by [thatAfro](https://thatafro.netlify.app).
