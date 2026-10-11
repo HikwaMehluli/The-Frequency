@@ -11,6 +11,6 @@ initCassette('#mix-tape');
 // Register the service worker so music and sounds work offline too.
 if ('serviceWorker' in navigator) {
 	window.addEventListener('load', () => {
-		navigator.serviceWorker.register('/sw.js');
+		navigator.serviceWorker.register('./sw.js');
 	});
 }
