@@ -17,7 +17,9 @@ self.addEventListener('fetch', (event) => {
 	const url = new URL(event.request.url);
 
 	// Only bother with our own music and sound files.
-	const isAudio = url.pathname.startsWith('/music/') || url.pathname.startsWith('/sounds/');
+	// GitHub Pages project sites live under a subpath like /The-Frequency/,
+	// so the pathname may include that prefix.
+	const isAudio = url.pathname.includes('/music/') || url.pathname.includes('/sounds/');
 	if (!isAudio) return;
 
 	event.respondWith(
