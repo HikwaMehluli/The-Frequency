@@ -2,8 +2,8 @@
 // One shared engine for the whole album: plays the songs, spins the wheels,
 // and handles play / stop / rewind / forward / switch-side.
 
-const SONGS_PATH = '/music/';
-const SOUNDS_PATH = '/sounds/';
+const SONGS_PATH = './music/';
+const SOUNDS_PATH = './sounds/';
 
 // Default settings. Change the order of `songs` here to change the album,
 // and the tape sides + sidebar menu update automatically.

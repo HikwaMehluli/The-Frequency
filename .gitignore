@@ -20,7 +20,6 @@
 *.tar
 *.zip
 /node_modules
-/dist
 prepros.config
 ai
 /ai

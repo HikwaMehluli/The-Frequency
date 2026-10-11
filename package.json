@@ -1,16 +1,15 @@
 {
-  "name": "mixtape",
+  "name": "the-frequency",
   "version": "1.0.0",
-  "description": "Interactive old school mixtape website",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
-  "author": "Mehluli Hikwa",
   "devDependencies": {
-    "sass": "^1.96.0",
-    "vite": "^7.1.5"
-  },
-  "type": "module"
+    "sass": "^1.89.2",
+    "vite": "^7.1.7"
+  }
 }
