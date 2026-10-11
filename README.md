@@ -1,7 +1,7 @@
 # The Frequency by thatAfro
 
 A musical album turned into an **interactive cassette tape** you click and listen to.
-Press play, rewind, fast-forward — just like the old days.
+Press play, rewind, fast-forward — just like the good old days.
 
 **Live demo:** [thatafro.netlify.app](https://thatafro.netlify.app/)
 
