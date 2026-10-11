@@ -1,15 +1,16 @@
 {
-	"name": "mixtape",
-	"version": "1.0.0",
-	"description": "Interactive old school mixtape website",
-	"scripts": {
-		"dev": "vite --host",
-		"build": "vite build",
-		"preview": "vite preview"
-	},
-	"author": "Mehluli Hikwa",
-	"devDependencies": {
-		"sass": "^1.96.0",
-		"vite": "^7.1.5"
-	}
+  "name": "mixtape",
+  "version": "1.0.0",
+  "description": "Interactive old school mixtape website",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "author": "Mehluli Hikwa",
+  "devDependencies": {
+    "sass": "^1.96.0",
+    "vite": "^7.1.5"
+  },
+  "type": "module"
 }
