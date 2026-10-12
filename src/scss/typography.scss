@@ -153,15 +153,16 @@ footer {
 	bottom: 0;
 	right: 0;
 	margin: 20px;
-	font-size: 1rem;
+	font-size: 0.875rem;
 	transition: var(--transition);
 
 	a {
 		color: var(--white-color);
 
 		&:hover {
-			color: var(--black-color);
-			padding-left: 10px;
+			color: var(--white-color);
+			border: 2px solid var(--white-color);
+			padding: 10px;
 		}
 	}
 }
